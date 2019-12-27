@@ -1,1 +1,36 @@
-<p>manage-typecar works!</p>
+<div class="ui-g">
+  <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12">
+    <div style="text-align:center">
+      <h1>จัดการประเภทรถ</h1>
+    </div>
+
+    <div class="ui-g-12">
+      <div  class="ui-g-12 ui-lg-4 ui-md-12" style="text-align: right;">
+        <div class="center temple-button font-show">
+      <button pButton type="button" label="เพิ่ม" class="ui-button-rounded ui-button-success" style="font-size: 20px; width: 25%;" ></button>
+      </div>
+    </div>
+    </div>
+    <p-table >
+      <ng-template pTemplate="header">
+          <tr>
+              <th>ยี่ห้อรถ</th>
+              <th>S</th>
+              <th>M</th>
+              <th>L</th>
+              <th>XL</th>
+              <th>Van</th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-car>
+          <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+
+          </tr>
+      </ng-template>
+  </p-table>
+  </div>
+</div>

@@ -11,6 +11,8 @@ import { ManageCarserviceComponent } from './manage-carservice/manage-carservice
 import { ManagePromotionComponent } from './manage-promotion/manage-promotion.component';
 import { ManageToolsComponent } from './manage-tools/manage-tools.component';
 import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+
 @NgModule({
   declarations: [
     ContentComponent,
@@ -26,7 +28,8 @@ import { TableModule } from 'primeng/table';
     CommonModule,
     ContentRoutingModule,
     NgxSpinnerModule,
-    TableModule
+    TableModule,
+    ButtonModule
   ],
   exports: [
     ContentComponent

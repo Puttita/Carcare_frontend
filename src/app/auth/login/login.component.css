@@ -16,7 +16,7 @@ body {
   bottom: -40px;
   width: auto;
   height: auto;
-  background-color: yellowgreen;
+  background-color: #99acc1;
   background-size: cover;
   -webkit-filter: blur(5px);
   z-index: 0;
