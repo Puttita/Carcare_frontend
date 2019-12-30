@@ -16,11 +16,13 @@ import { BookingComponent } from './booking/booking.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CardModule } from 'primeng/card';
 import { CalendarModule } from 'primeng/calendar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InputTextModule } from 'primeng/inputtext';
 import { BookingDetailComponent } from './booking-detail/booking-detail.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { FullCalendarModule } from 'primeng/fullcalendar';
+import { AuthService } from '../shared/services/auth.service';
+import { AuthGuard } from '../shared/guard/auth.guard';
+import { HttpClientService } from '../shared/services/http-client.service';
 
 @NgModule({
   declarations: [
@@ -45,12 +47,9 @@ import { FullCalendarModule } from 'primeng/fullcalendar';
     ButtonModule,
     CardModule,
     CalendarModule,
-    BrowserAnimationsModule,
     InputTextModule,
     FullCalendarModule
   ],
-  exports: [
-    ContentComponent
-  ]
+  providers: [AuthService, AuthGuard, HttpClientService],
 })
 export class ContentModule { }

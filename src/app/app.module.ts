@@ -9,7 +9,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { FooterComponent } from './core/footer/footer.component';
 import { TopbarComponent } from './core/topbar/topbar.component';
 import { MenubarModule } from 'primeng/menubar';
-import { RouterModule, Routes } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -25,8 +27,9 @@ import { RouterModule, Routes } from '@angular/router';
     AccordionModule,
     NgxSpinnerModule,
     MenubarModule,
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
