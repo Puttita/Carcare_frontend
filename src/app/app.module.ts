@@ -9,6 +9,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { FooterComponent } from './core/footer/footer.component';
 import { TopbarComponent } from './core/topbar/topbar.component';
 import { MenubarModule } from 'primeng/menubar';
+import { RouterModule, Routes } from '@angular/router';
 
 @NgModule({
   declarations: [

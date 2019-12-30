@@ -12,6 +12,15 @@ import { ManagePromotionComponent } from './manage-promotion/manage-promotion.co
 import { ManageToolsComponent } from './manage-tools/manage-tools.component';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
+import { BookingComponent } from './booking/booking.component';
+import { ProfileComponent } from './profile/profile.component';
+import { CardModule } from 'primeng/card';
+import { CalendarModule } from 'primeng/calendar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InputTextModule } from 'primeng/inputtext';
+import { BookingDetailComponent } from './booking-detail/booking-detail.component';
+import { ScheduleComponent } from './schedule/schedule.component';
+import { FullCalendarModule } from 'primeng/fullcalendar';
 
 @NgModule({
   declarations: [
@@ -22,14 +31,23 @@ import { ButtonModule } from 'primeng/button';
     ManageTypecarComponent,
     ManageCarserviceComponent,
     ManagePromotionComponent,
-    ManageToolsComponent
+    ManageToolsComponent,
+    BookingComponent,
+    ProfileComponent,
+    BookingDetailComponent,
+    ScheduleComponent
   ],
   imports: [
     CommonModule,
     ContentRoutingModule,
     NgxSpinnerModule,
     TableModule,
-    ButtonModule
+    ButtonModule,
+    CardModule,
+    CalendarModule,
+    BrowserAnimationsModule,
+    InputTextModule,
+    FullCalendarModule
   ],
   exports: [
     ContentComponent

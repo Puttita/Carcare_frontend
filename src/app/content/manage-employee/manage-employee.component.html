@@ -1,25 +1,86 @@
 <div class="ui-g">
-  <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12">
+  <div class="ui-g-12 ui-lg-12">
     <div style="text-align:center">
       <h1>จัดการพนักงาน</h1>
     </div>
-    <p-table >
-      <ng-template pTemplate="header">
-          <tr>
-              <th>ชื่อ</th>
-              <th>เบอร์โทร</th>
-              <th>ตำแหน่ง</th>
-              <th>วันที่สร้าง</th>
-          </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-car>
-          <tr>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-          </tr>
-      </ng-template>
-  </p-table>
+    <div class="container" style="width: 80%;">
+      <div class="line"></div>
+      <br>
+      <div class="row">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-lg-12">
+            <p-table [paginator]="true" [rows]="10" [responsive]="true">
+              <ng-template pTemplate="caption">
+                <div style="text-align:left">
+                  <!-- <button pButton type="button" id="btn-Increase" label="เพิ่ม" class="ui-button-temple"
+                    style="width: 20%"></button> -->
+                    <button pButton type="button" label="เพิ่ม" class="ui-button-rounded ui-button-success"
+                    style="font-size: 15px; width: 10%;" ></button>
+                  </div>
+
+              </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th pSortableColumn="name">
+                    ชื่อ-นามสุกล
+                    <p-sortIcon field="nameAbbr" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th pSortableColumn="tel">
+                    เบอร์โทร
+                    <p-sortIcon field="name" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th pSortableColumn="role">
+                    ตำแหน่ง
+                    <p-sortIcon field="name" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th pSortableColumn="work">
+                    การทำงาน
+                    <p-sortIcon field="name" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th pSortableColumn="date">
+                    วันที่สร้าง
+                    <p-sortIcon field="name" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th>
+
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr>
+                  <td *ngFor="let col of columns;">
+                    <span class="ui-column-title">{{col.header}}</span> {{rowData[col.field]}}
+                  </td>
+                  <td>
+                    <div style="text-align:center">
+                      <button pButton type="button" label="แก้ไข" class="ui-button-warning"
+                        style="width: 40%;"></button>
+                      <button pButton type="button" label="ลบ" class="ui-button-danger"
+                        style="width: 40%;margin-left: 5mm"></button>
+                    </div>
+
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

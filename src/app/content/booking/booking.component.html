@@ -1,0 +1,34 @@
+<div class="ui-g">
+  <div class="ui-g-12 ui-lg-12">
+    <div style="text-align:center">
+      <h1>จองคิวล้างรถ</h1>
+    </div>
+    <div class="container" style="width: 50%;">
+      <div class="line"></div>
+      <br>
+      <p-card>
+        <div class="ui-g-12">
+          <div class="ui-g-2">วันที่จอง : </div>
+          <p-calendar formControlName="date" [showIcon]="true"></p-calendar>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-2">เวลาที่จอง : </div>
+          <p-calendar formControlName="date" [timeOnly]="true"></p-calendar>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-2">ชื่อ-นามสกุล : </div>
+          <span class="ui-float-label">
+            <input id="float-input" type="text" size="30" pInputText placeholder="ชื่อ-นามสกุล">
+          </span>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-2">ป้ายทะเบียนรถ : </div>
+          <span class="ui-float-label">
+            <input id="float-input" type="text" size="30" pInputText placeholder="ป้ายทะเบียนรถ">
+          </span>
+        </div>
+        <button pButton type="submit" label="ยืนยัน" class="ui-button-raised ui-button-success"></button>
+        <button pButton type="button" label="ยกเลิก" class="ui-button-raised ui-button-danger"></button>
+      </p-card>
+    </div>
+  </div>
