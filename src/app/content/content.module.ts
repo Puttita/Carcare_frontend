@@ -23,6 +23,7 @@ import { FullCalendarModule } from 'primeng/fullcalendar';
 import { AuthService } from '../shared/services/auth.service';
 import { AuthGuard } from '../shared/guard/auth.guard';
 import { HttpClientService } from '../shared/services/http-client.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,9 @@ import { HttpClientService } from '../shared/services/http-client.service';
     CardModule,
     CalendarModule,
     InputTextModule,
-    FullCalendarModule
+    FullCalendarModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [AuthService, AuthGuard, HttpClientService],
 })

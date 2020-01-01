@@ -98,7 +98,7 @@ body {
   margin-top: 10px;
 }
 
-.login input[type="button"] {
+.login input[type="submit"] {
   width: 260px;
   height: 35px;
   background: #fff;
@@ -113,11 +113,11 @@ body {
   margin-top: 10px;
 }
 
-.login input[type="button"]:hover {
+.login input[type="submit"]:hover {
   opacity: 0.8;
 }
 
-.login input[type="button"]:active {
+.login input[type="submit"]:active {
   opacity: 0.6;
 }
 
@@ -131,7 +131,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.9);
 }
 
-.login input[type="button"]:focus {
+.login input[type="submit"]:focus {
   outline: none;
 }
 
@@ -141,4 +141,31 @@ body {
 
 ::-moz-input-placeholder {
   color: rgba(255, 255, 255, 0.6);
+}
+button {
+  margin-right: 5mm;
+  margin-top: 1mm;
+}
+
+label {
+  margin-bottom: 2mm;
+}
+
+:host >>> .ui-card-header {
+  text-align: center;
+  font-size: 4em;
+}
+
+:host >>> .ui-card-content {
+  display: flex;
+}
+.text-invalid {
+  color: red;
+  width: 500px;
+}
+.ng-valid:not(form) {
+  border: 1px solid #42a948;
+}
+.ng-invalid:not(form) {
+  border: 1px solid #a94442;
 }

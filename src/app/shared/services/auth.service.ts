@@ -8,7 +8,7 @@ import { ApiConstants } from '../constants/ApiConstants';
 @Injectable()
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(false);
-  private role = new BehaviorSubject<string>('user');
+  private role = new BehaviorSubject<string>('manager');
 
   constructor(
     private router: Router,

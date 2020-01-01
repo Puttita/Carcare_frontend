@@ -22,25 +22,25 @@ export class AuthGuard implements CanActivate {
   auth() {
     return new Promise((resolve, reject) => {
       if (localStorage.getItem('access-token')) {
-        this.http.get(ApiConstants.baseURl + '/auth/loginWithToken',
+        this.http.get(ApiConstants.baseURl + '/loginWithToken',
           {
             headers:
-              { Authorization: `Bearer ${localStorage.getItem('access-token')}` }
+              { Authorization: `${localStorage.getItem('access-token')}` }
           }).toPromise().then(res => {
             console.log(res);
             if (res['result'] === 'Success') {
               this.authService.isLoggedIn().next(true);
-              this.authService.setRole(res['data']['0']['roleName']);
-              localStorage.setItem('userId', res['data'][0]['id']);
-              localStorage.setItem('username', res['data'][0]['fname']);
-              this.username.next(res['data'][0]['fname']);
+              this.authService.setRole(res['position']);
+              console.log(res['position']);
+              localStorage.setItem('userId', res['id']);
+              localStorage.setItem('username', res['fname']);
               return resolve(true);
             } else {
               this.authService.isLoggedIn().next(false);
               return reject(false);
             }
-          }).catch(() => {
-            console.log('token invalid');
+          }).catch((e) => {
+            console.log('token invalid', e);
             localStorage.removeItem('access-token');
             this.authService.isLoggedIn().next(false);
             return reject(false);

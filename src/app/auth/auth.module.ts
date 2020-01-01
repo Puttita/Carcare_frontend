@@ -4,7 +4,8 @@ import { AuthComponent } from './auth.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from './login/login.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ToastModule } from 'primeng/toast';
 @NgModule({
   declarations: [
     AuthComponent,
@@ -13,7 +14,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   imports: [
     CommonModule,
     AuthRoutingModule,
-    NgxSpinnerModule
-  ]
+    NgxSpinnerModule,
+    ReactiveFormsModule,
+    ToastModule
+  ],
 })
 export class AuthModule { }

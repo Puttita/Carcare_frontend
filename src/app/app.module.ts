@@ -11,13 +11,16 @@ import { TopbarComponent } from './core/topbar/topbar.component';
 import { MenubarModule } from 'primeng/menubar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-
+import { MessageService } from 'primeng/api';
+import { MenubarComponent } from './core/menubar/menubar.component';
+import { MenuModule } from 'primeng/menu';
 
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
-    TopbarComponent
+    TopbarComponent,
+    MenubarComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +31,11 @@ import { HttpClientModule } from '@angular/common/http';
     NgxSpinnerModule,
     MenubarModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    MenuModule,
+  ],
+  providers: [
+    MessageService,
   ],
   bootstrap: [AppComponent]
 })

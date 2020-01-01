@@ -1,4 +1,8 @@
+import { Employee } from './../../shared/interfaces/employee';
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/operators';
+import { ManageUserService } from 'src/app/shared/services/manage-user.service';
 
 @Component({
   selector: 'app-profile',
@@ -6,10 +10,31 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-
-  constructor() { }
+  public userData: Employee;
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private manageUser: ManageUserService,
+  ) { }
 
   ngOnInit() {
+    // this.getData();
   }
+
+  // getData() {
+  //   this.route.params.pipe(map(res => res.id)).subscribe(id => {
+  //     this.manageUser.getUser(id).subscribe(
+  //       res => {
+  //         if (res['status'] === 'Success') {
+  //           this.userData = res['data'];
+  //           console.log(this.userData);
+  //         }
+  //       },
+  //       (err) => {
+  //         console.log(err['error']['message']);
+  //       }
+  //     );
+  //   });
+  // }
 
 }

@@ -1,12 +1,36 @@
 <ngx-spinner></ngx-spinner>
+
 <div class="body"></div>
-		<div class="grad"></div>
-		<div class="header">
-			<div>47 <span>Carcare</span></div>
-		</div>
-		<br>
-		<div class="login">
-				<input type="text" placeholder="username" name="user"><br>
-				<input type="password" placeholder="password" name="password"><br>
-				<input type="button" value="Login">
-		</div>
+<div class="grad"></div>
+<div class="header">
+  <div>47 <span>Carcare</span></div>
+</div>
+<br>
+<div class="login">
+  <form [formGroup]="form" (submit)="onSubmit($event)">
+    <div>
+      <input type="text" placeholder="username" name="username" formControlName="username">
+      <div *ngIf="formError.username" class="text-danger text-invalid ">
+        {{formError.username}}
+      </div>
+    </div>
+    <div>
+      <input type="password" placeholder="password" name="password" formControlName="password">
+      <div *ngIf="formError.password" class="text-danger text-invalid">{{formError.password }}</div><br>
+    </div>
+    <input type="submit" value="Login">
+  </form>
+  <p-toast position="center" key="alert" [modal]="true" [baseZIndex]="99999">
+    <ng-template let-message pTemplate="message">
+      <div style="text-align: center">
+        <i class="pi pi-times" style="font-size: 3em"></i>
+        <h3>กรอกข้อมูลไม่ถูกต้อง</h3>
+      </div>
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <button type="button" (click)="onConfirm()" label="OK" class="ui-button-success"></button>
+        </div>
+      </div>
+    </ng-template>
+  </p-toast>
+</div>

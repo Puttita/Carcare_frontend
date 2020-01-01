@@ -9,49 +9,47 @@
       <div class="row">
         <div class="ui-g">
           <div class="ui-g-12 ui-lg-12">
-            <p-table [paginator]="true" [rows]="10" [responsive]="true">
+            <p-table [paginator]="true" [value]='personal' [rows]="5" [responsive]="true" selectionMode="single">
               <ng-template pTemplate="caption">
                 <div style="text-align:left">
-                  <!-- <button pButton type="button" id="btn-Increase" label="เพิ่ม" class="ui-button-temple"
-                    style="width: 20%"></button> -->
-                    <button pButton type="button" label="เพิ่ม" class="ui-button-rounded ui-button-success"
-                    style="font-size: 15px; width: 10%;" ></button>
-                  </div>
+                  <button pButton type="button" label="เพิ่ม" (click)="addEmployee()"
+                    class="ui-button-rounded ui-button-success" style="font-size: 15px; width: 10%;"></button>
+                </div>
 
               </ng-template>
               <ng-template pTemplate="header" let-columns>
                 <tr>
                   <th pSortableColumn="name">
                     ชื่อ-นามสุกล
-                    <p-sortIcon field="nameAbbr" ariaLabel="Activate to sort"
+                    <p-sortIcon field="name" ariaLabel="Activate to sort"
                       ariaLabelDesc="Activate to sort in descending order"
                       ariaLabelAsc="Activate to sort in ascending order">
                     </p-sortIcon>
                   </th>
                   <th pSortableColumn="tel">
                     เบอร์โทร
-                    <p-sortIcon field="name" ariaLabel="Activate to sort"
+                    <p-sortIcon field="tel" ariaLabel="Activate to sort"
                       ariaLabelDesc="Activate to sort in descending order"
                       ariaLabelAsc="Activate to sort in ascending order">
                     </p-sortIcon>
                   </th>
                   <th pSortableColumn="role">
                     ตำแหน่ง
-                    <p-sortIcon field="name" ariaLabel="Activate to sort"
+                    <p-sortIcon field="role" ariaLabel="Activate to sort"
                       ariaLabelDesc="Activate to sort in descending order"
                       ariaLabelAsc="Activate to sort in ascending order">
                     </p-sortIcon>
                   </th>
                   <th pSortableColumn="work">
                     การทำงาน
-                    <p-sortIcon field="name" ariaLabel="Activate to sort"
+                    <p-sortIcon field="work" ariaLabel="Activate to sort"
                       ariaLabelDesc="Activate to sort in descending order"
                       ariaLabelAsc="Activate to sort in ascending order">
                     </p-sortIcon>
                   </th>
                   <th pSortableColumn="date">
                     วันที่สร้าง
-                    <p-sortIcon field="name" ariaLabel="Activate to sort"
+                    <p-sortIcon field="date" ariaLabel="Activate to sort"
                       ariaLabelDesc="Activate to sort in descending order"
                       ariaLabelAsc="Activate to sort in ascending order">
                     </p-sortIcon>
@@ -62,9 +60,41 @@
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr>
+                <tr [pSelectableRow]="rowData">
+                  <td [pSelectableRow]="rowData">
+                    {{rowData.employee_fname}} {{rowData.employee_lname}}
+                  </td>
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    {{rowData.employee_tel}}
+                  </td>
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    {{rowData.position_id}}
+                  </td>
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    -
+                  </td>
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    {{rowData.create_datetime | date:'dd/MM/yyyy'}}
+                  </td>
                   <td *ngFor="let col of columns;">
-                    <span class="ui-column-title">{{col.header}}</span> {{rowData[col.field]}}
+                    <div *ngIf="rowData[col.field] != rowData['status']">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <div *ngIf="rowData[col.field] == rowData['employee_fname'] && col.field == 'employee_fname'">
+                        {{rowData.employee_fname}} +' '+ {{rowData.employee_lname}}
+                      </div>
+                      <div *ngIf="rowData[col.field] == rowData['employee_tel']">
+                        {{rowData.employee_tel}}
+                      </div>
+                      <div *ngIf="rowData[col.field] == rowData['position_id'] ">
+                        {{rowData.position_id}}
+                      </div>
+                      <div *ngIf="rowData[col.field] == rowData['position_work']">
+                        -
+                      </div>
+                      <div *ngIf="rowData[col.field] == rowData['create_datetime']">
+                        {{rowData.create_datetime | date:'yyyy/MM/dd h:mm:ss'}}
+                      </div>
+                    </div>
                   </td>
                   <td>
                     <div style="text-align:center">
@@ -84,3 +114,6 @@
     </div>
   </div>
 </div>
+<form [formGroup]="form" novalidate>
+
+</form>

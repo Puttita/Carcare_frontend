@@ -18,13 +18,13 @@
                 <span>ชื่อ : </span>
               </div>
               <div class="ui-g-5 ui-lg-8 " style="text-align:left;">
-                <span> สมหญิง </span>
+                <span>{{(userData) ? userData.employee_fname: ''}} </span>
               </div>
               <div class="ui-g-5 ui-lg-3 text-info" style="text-align: right;">
                 <span>นามสกุล :</span>
               </div>
               <div class="ui-g-5 ui-lg-8 " style="text-align: left;">
-                <span> สวยงาม</span>
+                <span>{{(userData) ? userData.employee_lname: ''}} </span>
               </div>
 
               <div class="ui-g-5 ui-lg-3 text-info " style="text-align: right;">

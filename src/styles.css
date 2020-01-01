@@ -1,94 +1,110 @@
 /* You can add global styles to this file, and also import other style files */
 @import url(https://fonts.googleapis.com/css?family=Exo:100,200,400);
-@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:700,400,300);
+@import url(
+  https://fonts.googleapis.com/css?family=Source+Sans+Pro:700,400,300
+);
 
-@import url('https://fonts.googleapis.com/css?family=Trirong:300,400&subset=thai');
+@import url("https://fonts.googleapis.com/css?family=Trirong:300,400&subset=thai");
 html,
 body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    background-color: #ffffff !important;
-    padding-top: 95px;
+  background-color: #ffffff !important;
+  padding-top: 60px;
 }
 
 body,
 body .ui-widget,
 button,
 pre {
-    font-family: 'Trirong', sans-serif !important;
+  font-family: "Trirong", sans-serif !important;
 }
 
 img {
-    max-width: 100%;
+  max-width: 100%;
 }
 body .ui-panel .ui-panel-titlebar {
-    background-color: #b8860b;
-  }
+  background-color: #b8860b;
+}
 fieldset {
-    background-color: #f1efe9 !important;
-    border-radius: 5px;
-    border: 1px #b8860b solid;
+  background-color: #f1efe9 !important;
+  border-radius: 5px;
+  border: 1px #b8860b solid;
 }
 legend {
-    padding: 5px;
-    background-color: #3f5e71;
-    color: #fff;
+  padding: 15px;
+  background-color: #0b48b8;
+  color: #fff;
 }
 
 .row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
 }
 
 .horizontal-center {
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .line {
-    border-bottom: 1px solid #cecece;
-    clear: both;
-    display: block;
+  border-bottom: 1px solid #cecece;
+  clear: both;
+  display: block;
 }
 
 .container {
-    width: 60%;
-    margin: 0 auto;
+  width: 60%;
+  margin: 0 auto;
 }
 body .ui-panel .ui-panel-titlebar {
-    padding: 0;
-  }
+  padding: 0;
+}
 
 .ui-panel .ui-panel-titlebar {
-    padding: 0;
+  padding: 0;
 }
 
 @media screen and (max-width: 1024px) {
-    .container {
-        width: 70%;
-    }
+  .container {
+    width: 70%;
+  }
 }
 
 @media screen and (max-width: 768px) {
-    .container {
-        width: 80%;
-    }
+  .container {
+    width: 80%;
+  }
 }
 
 @media screen and (max-width: 520px) {
-    .container {
-        width: 90%;
-    }
+  .container {
+    width: 90%;
+  }
 }
 
 @media screen and (max-width: 414px) {
-    .container {
-        width: 95%;
-    }
+  .container {
+    width: 95%;
+  }
+}
+body .ui-menu {
+  background-color: #20272a !important ;
+  /* border: 1px solid #c8c8c8; */
+  width: auto;
+}
+body .ui-menu .ui-menuitem-link .ui-menuitem-text {
+  color: #f4f4f4 !important;
+}
+
+/* เมื่อสัมพัสกะเมนูมันจะึ้นแทบสีฟ้า */
+body .ui-menu .ui-menuitem-link:hover {
+  background-color: #357794 !important;
+  color: #1a1919 !important;
 }
