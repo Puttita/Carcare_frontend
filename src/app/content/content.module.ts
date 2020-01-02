@@ -24,6 +24,8 @@ import { AuthService } from '../shared/services/auth.service';
 import { AuthGuard } from '../shared/guard/auth.guard';
 import { HttpClientService } from '../shared/services/http-client.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DialogModule } from 'primeng/dialog';
+import { InputMaskModule } from 'primeng/inputmask';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     InputTextModule,
     FullCalendarModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DialogModule,
+    InputMaskModule
   ],
   providers: [AuthService, AuthGuard, HttpClientService],
 })

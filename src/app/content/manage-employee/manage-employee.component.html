@@ -115,5 +115,73 @@
   </div>
 </div>
 <form [formGroup]="form" novalidate>
-
+  <p-dialog header="เพิ่มพนักงาน" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
+    [style]="{width: '500px'}">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12">
+        <div class="form-group">
+          <div class="ui-g-4">
+            <label for="username">Username</label>
+          </div>
+          <div class="ui-g-8">
+            <input pInputText id="username" type="text" formControlName="username" />
+            <div
+              *ngIf="form.controls['username'].invalid && (form.controls['username'].dirty || form.controls['username'].touched)"
+              class="alert alert-danger">
+              <div class="text-danger text-invalid" *ngIf="form.controls['username'].errors.required">
+                กรุณากรอก Username</div>
+            </div>
+          </div>
+          <div class="ui-g-4">
+            <label for="password">Password</label>
+          </div>
+          <div class="ui-g-8">
+            <input pInputText id="password" type="password" formControlName="password" />
+            <div
+              *ngIf="form.controls['password'].invalid && (form.controls['password'].dirty || form.controls['password'].touched)"
+              class="alert alert-danger">
+              <div class="text-danger text-invalid" *ngIf="form.controls['password'].errors.required">
+                กรุณากรอก Password</div>
+              <div *ngIf="form.controls['password'].errors.minlength">ต้องมากกว่า 6 ตัวอักษร</div>
+            </div>
+          </div>
+          <div class="ui-g-4">
+            <label for="fname">ชื่อ</label>
+          </div>
+          <div class="ui-g-8">
+            <input pInputText id="fname" type="text" formControlName="fname" />
+            <div
+              *ngIf="form.controls['fname'].invalid && (form.controls['fname'].dirty || form.controls['fname'].touched)"
+              class="alert alert-danger">
+              <div class="text-danger text-invalid" *ngIf="form.controls['fname'].errors.required">
+                กรุณากรอก ชื่อ</div>
+            </div>
+          </div>
+          <div class="ui-g-4">
+            <label for="lname">นามสกุล</label>
+          </div>
+          <div class="ui-g-8">
+            <input pInputText id="lname" type="text" formControlName="lname" />
+            <div
+              *ngIf="form.controls['lname'].invalid && (form.controls['lname'].dirty || form.controls['lname'].touched)"
+              class="alert alert-danger">
+              <div class="text-danger text-invalid" *ngIf="form.controls['lname'].errors.required">
+                กรุณากรอก นามสกุล</div>
+            </div>
+          </div>
+          <div class="ui-g-4">
+            <label for="tel">เบอร์โทร</label>
+          </div>
+          <div class="ui-g-8">
+            <p-inputMask mask="999-999-9999" placeholder="099-999-9999" formControlName="tel"></p-inputMask>
+            <div *ngIf="form.controls['tel'].invalid && (form.controls['tel'].dirty || form.controls['tel'].touched)"
+              class="alert alert-danger">
+              <div class="text-danger text-invalid" *ngIf="form.controls['tel'].errors.required">
+                กรุณากรอก เบอร์โทร</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-dialog>
 </form>

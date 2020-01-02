@@ -10,11 +10,11 @@ import { ManageUserService } from 'src/app/shared/services/manage-user.service';
 })
 export class ManageEmployeeComponent implements OnInit {
   public personal: any[];
-  cols: any[];
+  public cols: any[];
   public form: FormGroup;
-  displayDialog: boolean;
-  newEmp: boolean;
-  employee: Employee;
+  public displayDialog: boolean;
+  public newEmp: boolean;
+  public employee: Employee;
 
   constructor(
     private manageUser: ManageUserService,
@@ -31,13 +31,17 @@ export class ManageEmployeeComponent implements OnInit {
     ];
 
     this.getAllEmployee();
+    this.createForm();
 
   }
 
   createForm() {
     this.form = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       fname: ['', Validators.required],
       lname: ['', Validators.required],
+      tel: ['', Validators.compose([Validators.required, Validators.minLength(5)])],
       role: ['', Validators.required],
       work: [''],
     })
@@ -55,7 +59,10 @@ export class ManageEmployeeComponent implements OnInit {
   addEmployee() {
     this.newEmp = true;
     this.employee = {},
-    this.displayDialog = true;
+      this.displayDialog = true;
   }
-
+  onReset() {
+    this.form.reset();
+    this.displayDialog = false;
+}
 }
