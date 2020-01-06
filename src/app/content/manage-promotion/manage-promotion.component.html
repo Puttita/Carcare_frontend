@@ -9,25 +9,16 @@
       <div class="row">
         <div class="ui-g">
           <div class="ui-g-12 ui-lg-12">
-            <p-table [paginator]="true" [rows]="10" [responsive]="true">
+            <p-table [paginator]="true" [value]='pro' [rows]="5" [responsive]="true">
               <ng-template pTemplate="caption">
                 <div style="text-align:left">
-                  <!-- <button pButton type="button" id="btn-Increase" label="เพิ่ม" class="ui-button-temple"
-                    style="width: 20%"></button> -->
-                    <button pButton type="button" label="เพิ่ม" class="ui-button-rounded ui-button-success"
-                    style="font-size: 15px; width: 10%;" ></button>
+                  <button pButton type="button" label="เพิ่ม" class="ui-button-rounded ui-button-success"
+                    style="font-size: 15px; width: 10%;" (click)="showDialogToAdd()"></button>
                 </div>
 
               </ng-template>
               <ng-template pTemplate="header" let-columns>
                 <tr>
-                  <th pSortableColumn="nameAbbr">
-                    ชื่อโปรโมชั่น
-                    <p-sortIcon field="nameAbbr" ariaLabel="Activate to sort"
-                      ariaLabelDesc="Activate to sort in descending order"
-                      ariaLabelAsc="Activate to sort in ascending order">
-                    </p-sortIcon>
-                  </th>
                   <th pSortableColumn="amount">
                     รายละเอียดโปรโมชั่น
                     <p-sortIcon field="name" ariaLabel="Activate to sort"
@@ -62,16 +53,43 @@
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr>
+                <tr [pSelectableRow]="rowData">
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    {{rowData.detail}}
+                  </td>
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    {{rowData.date_start | date:'dd/MM/yyyy'}}
+                  </td>
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    {{rowData.date_end | date:'dd/MM/yyyy'}}
+                  </td>
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    {{rowData.discount_percent }}
+                  </td>
                   <td *ngFor="let col of columns;">
-                    <span class="ui-column-title">{{col.header}}</span> {{rowData[col.field]}}
+                    <div *ngIf="rowData[col.field] != rowData['status']">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <div *ngIf="rowData[col.field] == rowData['detail']">
+                        {{rowData.detail}}
+                      </div>
+                      <div *ngIf="rowData[col.field] == rowData['date_start'] ">
+                        {{rowData.date_start}}
+                      </div>
+                      <div *ngIf="rowData[col.field] == rowData['date_end']">
+                        {{rowData.date_end}}
+                      </div>
+                      <div *ngIf="rowData[col.field] == rowData['discount_percent']">
+                        {{rowData.discount_percent }}
+                      </div>
+                    </div>
+
                   </td>
                   <td>
                     <div style="text-align:center">
                       <button pButton type="button" label="แก้ไข" class="ui-button-warning"
-                        style="width: 40%;"></button>
+                        (click)="showEdit(rowData['promotion_id'])" style="width: 40%;"></button>
                       <button pButton type="button" label="ลบ" class="ui-button-danger"
-                        style="width: 40%;margin-left: 5mm"></button>
+                        (click)="delete(rowData['promotion_id'])" style="width: 40%;margin-left: 5mm"></button>
                     </div>
 
                   </td>
@@ -84,3 +102,77 @@
     </div>
   </div>
 </div>
+<form [formGroup]="form" novalidate>
+  <p-dialog header="รายละเอียดรถ" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
+    [style]="{width: '650px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000" (onHide)="form.reset()">
+    <div class="ui-g ui-fluid" *ngIf="promotion">
+      <div class="ui-g-12">
+        <div class="form-group">
+
+          <div class="ui-g-4">
+            <label for="detail">รายละเอียดโปรโมชั่น</label>
+          </div>
+          <div class="ui-g-8">
+            <input pInputText id="detail" [(ngModel)]="detail" formControlName="detail" />
+            <div
+              *ngIf="form.controls['detail'].invalid && (form.controls['detail'].dirty || form.controls['detail'].touched)"
+              class="alert alert-danger">
+              <div class="text-danger text-invalid" *ngIf="form.controls['detail'].errors.required">
+                กรุณากรอกรายละเอียดโปรโมชั่น</div>
+            </div>
+          </div>
+          <div class="ui-g-4">
+            <label for="date_start">วันที่เริ่มใช้</label>
+          </div>
+          <div class="ui-g-8">
+            <p-calendar id="date_start" [(ngModel)]="dateStart" [showIcon]="true" formControlName="date_start"
+              [appendTo]="body">
+            </p-calendar>
+            <div
+              *ngIf="form.controls['date_start'].invalid && (form.controls['date_start'].dirty || form.controls['date_start'].touched)"
+              class="alert alert-danger">
+              <div class="text-danger text-invalid" *ngIf="form.controls['date_start'].errors.required">
+                กรุณากรอกวันที่เริ่มใช้</div>
+            </div>
+          </div>
+          <div class="ui-g-4">
+            <label for="date_end">วันที่สิ้นสุดโปรโมชั่น</label>
+          </div>
+          <div class="ui-g-8">
+            <p-calendar id="date_end" [(ngModel)]="dateEnd" [showIcon]="true" formControlName="date_end"
+              [appendTo]="body">
+            </p-calendar>
+            <div
+              *ngIf="form.controls['date_end'].invalid && (form.controls['date_end'].dirty || form.controls['date_end'].touched)"
+              class="alert alert-danger">
+              <div class="text-danger text-invalid" *ngIf="form.controls['date_end'].errors.required">
+                กรุณากรอกวันที่สิ้นสุดโปรโมชั่น</div>
+            </div>
+          </div>
+          <div class="ui-g-4">
+            <label for="discount_percent">เปอร์เซนต์ลด</label>
+          </div>
+          <div class="ui-g-8">
+            <input pInputText id="detail" [(ngModel)]="discount" formControlName="discount_percent" />
+            <div
+              *ngIf="form.controls['discount_percent'].invalid && (form.controls['discount_percent'].dirty || form.controls['discount_percent'].touched)"
+              class="alert alert-danger">
+              <div class="text-danger text-invalid" *ngIf="form.controls['discount_percent'].errors.required">
+                กรุณากรอกเปอร์เซนต์ลด</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" id="btn-Clear" pButton (click)="clear()" label="ยกเลิก"></button>
+        <button *ngIf="newPromotion" id="btn-Save" type="button" pButton (click)="save()" label="บันทึก"
+          [disabled]="form.pristine || form.invalid"></button>
+        <button *ngIf="!newPromotion" id="btn-Update" type="button" pButton label="แก้ไข" (click)="update()"
+          [disabled]="form.invalid"></button>
+      </div>
+    </p-footer>
+  </p-dialog>
+</form>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

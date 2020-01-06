@@ -1,3 +1,5 @@
+import { EditDataEmployeeComponent } from './edit-data-employee/edit-data-employee.component';
+import { EditFormComponent } from './edit-form/edit-form.component';
 import { BookingComponent } from './booking/booking.component';
 import { ManagePromotionComponent } from './manage-promotion/manage-promotion.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -38,22 +40,37 @@ const routes: Routes = [
       },
 
       {
-        path: 'manageTools',
+        path: 'manageTool',
         component: ManageToolsComponent,
       },
       {
         path: 'manageEmployee',
-        component: ManageEmployeeComponent,
-      },
-      {
-        path: 'profile',
         children: [
+          {
+            path: '',
+            component: ManageEmployeeComponent,
+          },
+          {
+            path: 'create',
+            component: EditFormComponent,
+            data: {
+              urlback: '/manageEmployee',
+              messageback: 'กลับสู่หน้าจัดการพนักงาน'
+            }
+          },
+          {
+            path: 'edit/:id',
+            component: EditDataEmployeeComponent,
+            data: {
+              urlback: '/manageEmployee',
+              messageback: 'กลับสู่หน้าจัดการพนักงาน'
+            }
+          },
           {
             path: ':id',
             component: ProfileComponent
           }
         ]
-
       },
       {
         path: 'managePromotion',

@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
+import { HttpClientService } from './http-client.service';
+import { ApiConstants } from '../constants/ApiConstants';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -7,11 +10,16 @@ import { AuthService } from './auth.service';
 export class ManagePositionService {
 
   constructor(
-    private authservice: AuthService
+    private authservice: AuthService,
+    private http: HttpClientService
   ) { }
 
+  getRoleStatus() {
+    return this.authservice.getRole().getValue() === 'manager' ? true : false;
+  }
+
   getPosition() {
-    if (this.authservice.getRole().getValue() === 'admin') {
+    if (this.authservice.getRole().getValue() === 'manager') {
       return [
         {
           position_id: 4,
@@ -39,4 +47,19 @@ export class ManagePositionService {
       ]
     }
   }
+  showPosition() {
+    return this.http.get(ApiConstants.baseURl + '/position')
+      .pipe(
+        map((res: any[]) => {
+          return res['data'].map(data => {
+            return {
+              position_id: data['position_id'],
+              position_role: data['position_role'],
+              position_work: data['position_work']
+            };
+          });
+        })
+      );
+  }
+
 }

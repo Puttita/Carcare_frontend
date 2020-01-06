@@ -26,7 +26,14 @@ import { HttpClientService } from '../shared/services/http-client.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
-
+import { DropdownModule } from 'primeng/dropdown';
+import { EditFormComponent } from './edit-form/edit-form.component';
+import { ConfirmationService } from 'primeng/api';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { EditDataEmployeeComponent } from './edit-data-employee/edit-data-employee.component';
 @NgModule({
   declarations: [
     ContentComponent,
@@ -40,7 +47,9 @@ import { InputMaskModule } from 'primeng/inputmask';
     BookingComponent,
     ProfileComponent,
     BookingDetailComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    EditFormComponent,
+    EditDataEmployeeComponent
   ],
   imports: [
     CommonModule,
@@ -55,8 +64,13 @@ import { InputMaskModule } from 'primeng/inputmask';
     FormsModule,
     ReactiveFormsModule,
     DialogModule,
-    InputMaskModule
+    InputMaskModule,
+    DropdownModule,
+    MessagesModule,
+    MessageModule,
+    ConfirmDialogModule,
+    ToastModule
   ],
-  providers: [AuthService, AuthGuard, HttpClientService],
+  providers: [AuthService, AuthGuard, HttpClientService, ConfirmationService],
 })
 export class ContentModule { }

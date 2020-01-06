@@ -1,7 +1,10 @@
+import { MessageService, ConfirmationService, Message } from 'primeng/api';
+import { ManagePositionService } from './../../shared/services/manage-position.service';
 import { Employee } from './../../shared/interfaces/employee';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 import { Component, OnInit } from '@angular/core';
 import { ManageUserService } from 'src/app/shared/services/manage-user.service';
+import { Position } from 'src/app/shared/interfaces/position';
 
 @Component({
   selector: 'app-manage-employee',
@@ -11,14 +14,13 @@ import { ManageUserService } from 'src/app/shared/services/manage-user.service';
 export class ManageEmployeeComponent implements OnInit {
   public personal: any[];
   public cols: any[];
-  public form: FormGroup;
-  public displayDialog: boolean;
-  public newEmp: boolean;
+  public position: Position[];
+  public msgs: Message[] = [];
   public employee: Employee;
-
+  public employees: Employee[];
   constructor(
     private manageUser: ManageUserService,
-    private formBuilder: FormBuilder
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit() {
@@ -29,23 +31,9 @@ export class ManageEmployeeComponent implements OnInit {
       { field: 'position_work', header: 'การทำงาน' },
       { field: 'create_datetime', header: 'วันที่สร้าง' },
     ];
-
     this.getAllEmployee();
-    this.createForm();
-
   }
 
-  createForm() {
-    this.form = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      fname: ['', Validators.required],
-      lname: ['', Validators.required],
-      tel: ['', Validators.compose([Validators.required, Validators.minLength(5)])],
-      role: ['', Validators.required],
-      work: [''],
-    })
-  }
   getAllEmployee() {
     this.manageUser.getAllUsers().subscribe(res => {
       if (res['status'] === 'Success') {
@@ -55,14 +43,32 @@ export class ManageEmployeeComponent implements OnInit {
       (e) => console.log(e['error']['message'])
     );
   }
+  delete(id) {
+    this.msgs = [];
+    this.confirmationService.confirm({
+      message: 'ยืนยันการลบ',
+      header: 'ข้อความจากระบบ',
+      accept: () => {
+        const index = this.employees.findIndex(e => e.employee_id === id);
+        this.manageUser.deleteEmployee(id)
+          .subscribe(res => {
+            if (res['status'] === 'Success') {
+              this.msgs.push({ severity: 'Success', summary: 'ข้อความจากระบบ', detail: 'การดำเนินการลบสำเร็จ' });
+              this.employees = [
+                ...this.employees.slice(0, index),
+                ...this.employees.slice(index + 1)
+              ];
+            }
+          },
+            (e) => {
+              console.log(e['error']['message']);
+              this.msgs.push({ severity: 'error', summary: 'ข้อความจากระบบ', detail: 'การดำเนินการลบไม่สำเร็จ' });
+            }
+          );
+      },
+      reject: () => {
 
-  addEmployee() {
-    this.newEmp = true;
-    this.employee = {},
-      this.displayDialog = true;
+      }
+    });
   }
-  onReset() {
-    this.form.reset();
-    this.displayDialog = false;
-}
 }

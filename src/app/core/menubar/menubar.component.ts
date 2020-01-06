@@ -31,12 +31,13 @@ export class MenubarComponent implements OnInit {
       { label: 'จัดการเจ้าของร้าน', icon: 'pi pi-fw pi-users', routerLink: '/manageManager' },
     ];
     this.items2 = [
-      { label: 'ข้อมูลส่วนตัว', icon: 'pi pi-fw pi-users', routerLink: 'profile' },
+      { label: 'ข้อมูลส่วนตัว', icon: 'pi pi-fw pi-users', routerLink: '/manageEmployee/edit/:id' },
       { label: 'จัดการพนักงาน', icon: 'pi pi-fw pi-user-plus', routerLink: '/manageEmployee' },
       { label: 'จัดการประเภทรถ', icon: 'pi pi-fw pi-mobile', routerLink: '/manageTypecar' },
       { label: 'จัดการบริการรถ', icon: 'pi pi-fw pi-mobile', routerLink: '/manageCarservice' },
-      { label: 'จัดการอุปการณ์ล้างรถ', icon: 'pi pi-fw pi-shopping-cart', routerLink: '/manageTools' },
+      { label: 'จัดการอุปการณ์ล้างรถ', icon: 'pi pi-fw pi-shopping-cart', routerLink: '/manageTool' },
       { label: 'จัดการโปรโมชั่น', icon: 'pi pi-fw pi-shopping-cart', routerLink: '/managePromotion' },
+      { label: 'จัดการการจองคิว', icon: 'pi pi-fw pi-users', routerLink: '/manageBooking' },
     ];
     this.items3 = [
       { label: 'จัดการการจองคิว', icon: 'pi pi-fw pi-users', routerLink: '/manageBooking' },

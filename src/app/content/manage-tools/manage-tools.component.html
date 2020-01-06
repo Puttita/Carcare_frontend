@@ -9,13 +9,11 @@
       <div class="row">
         <div class="ui-g">
           <div class="ui-g-12 ui-lg-12">
-            <p-table [paginator]="true" [rows]="10" [responsive]="true">
+            <p-table [paginator]="true" [value]='tool' [rows]="5" [responsive]="true">
               <ng-template pTemplate="caption">
                 <div style="text-align:left">
-                  <!-- <button pButton type="button" id="btn-Increase" label="เพิ่ม" class="ui-button-temple"
-                    style="width: 20%"></button> -->
-                    <button pButton type="button" label="เพิ่ม" class="ui-button-rounded ui-button-success"
-                    style="font-size: 15px; width: 10%;" ></button>
+                  <button pButton type="button" label="เพิ่ม" class="ui-button-rounded ui-button-success"
+                    style="font-size: 15px; width: 10%;" (click)="showDialogToAdd()"></button>
                 </div>
 
               </ng-template>
@@ -41,16 +39,31 @@
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr>
+                <tr [pSelectableRow]="rowData">
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    {{rowData.tool_name}}
+                  </td>
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    {{rowData.amount}}
+                  </td>
                   <td *ngFor="let col of columns;">
-                    <span class="ui-column-title">{{col.header}}</span> {{rowData[col.field]}}
+                    <div *ngIf="rowData[col.field] != rowData['status']">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <div *ngIf="rowData[col.field] == rowData['tool_name']">
+                        {{rowData.tool_name}}
+                      </div>
+                      <div *ngIf="rowData[col.field] == rowData['amount'] ">
+                        {{rowData.amount}}
+                      </div>
+                    </div>
+
                   </td>
                   <td>
                     <div style="text-align:center">
                       <button pButton type="button" label="แก้ไข" class="ui-button-warning"
-                        style="width: 40%;"></button>
+                        (click)="showEdit(rowData['wash_tool_id'])" style="width: 40%;"></button>
                       <button pButton type="button" label="ลบ" class="ui-button-danger"
-                        style="width: 40%;margin-left: 5mm"></button>
+                        (click)="delete(rowData['wash_tool_id'])" style="width: 40%;margin-left: 5mm"></button>
                     </div>
 
                   </td>
@@ -63,3 +76,49 @@
     </div>
   </div>
 </div>
+<form [formGroup]="form" novalidate>
+  <p-dialog header="รายละเอียดรถ" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
+    [style]="{width: '300px'}" (onHide)="form.reset()">
+    <div class="ui-g ui-fluid" *ngIf="washtool">
+      <div class="ui-g-12">
+        <div class="form-group">
+
+          <div class="ui-g-4">
+            <label for="tool_name">ชื่ออุปกรณ์</label>
+          </div>
+          <div class="ui-g-8">
+            <input pInputText id="tool_name" [(ngModel)]="toolname" formControlName="tool_name" />
+            <div
+              *ngIf="form.controls['tool_name'].invalid && (form.controls['tool_name'].dirty || form.controls['tool_name'].touched)"
+              class="alert alert-danger">
+              <div class="text-danger text-invalid" *ngIf="form.controls['tool_name'].errors.required">
+                กรุณากรอกชื่ออุปกรณ์</div>
+            </div>
+          </div>
+          <div class="ui-g-4">
+            <label for="amount">จำนวน</label>
+          </div>
+          <div class="ui-g-8">
+            <input pInputText id="amount" [(ngModel)]="amount" formControlName="amount" />
+            <div
+              *ngIf="form.controls['amount'].invalid && (form.controls['amount'].dirty || form.controls['amount'].touched)"
+              class="alert alert-danger">
+              <div class="text-danger text-invalid" *ngIf="form.controls['amount'].errors.required">
+                กรุณากรอกจำนวน</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" id="btn-Clear" pButton (click)="clear()" label="ยกเลิก"></button>
+        <button *ngIf="newwashtool" id="btn-Save" type="button" pButton (click)="save()" label="บันทึก"
+          [disabled]="form.pristine || form.invalid"></button>
+        <button *ngIf="!newwashtool" id="btn-Update" type="button" pButton label="แก้ไข" (click)="update()"
+          [disabled]="form.invalid"></button>
+      </div>
+    </p-footer>
+  </p-dialog>
+</form>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

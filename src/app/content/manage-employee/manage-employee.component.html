@@ -8,11 +8,14 @@
       <br>
       <div class="row">
         <div class="ui-g">
+          <div class="ui-g-12 ui-lg-12 ui-md-12 ui-sm-12">
+            <p-messages [(value)]="msgs"></p-messages>
+          </div>
           <div class="ui-g-12 ui-lg-12">
             <p-table [paginator]="true" [value]='personal' [rows]="5" [responsive]="true" selectionMode="single">
               <ng-template pTemplate="caption">
                 <div style="text-align:left">
-                  <button pButton type="button" label="เพิ่ม" (click)="addEmployee()"
+                  <button pButton type="button" label="เพิ่ม" [routerLink]="[ '/manageEmployee/create']"
                     class="ui-button-rounded ui-button-success" style="font-size: 15px; width: 10%;"></button>
                 </div>
 
@@ -58,6 +61,7 @@
 
                   </th>
                 </tr>
+
               </ng-template>
               <ng-template pTemplate="body" let-rowData let-columns="columns">
                 <tr [pSelectableRow]="rowData">
@@ -95,13 +99,15 @@
                         {{rowData.create_datetime | date:'yyyy/MM/dd h:mm:ss'}}
                       </div>
                     </div>
+
                   </td>
                   <td>
                     <div style="text-align:center">
-                      <button pButton type="button" label="แก้ไข" class="ui-button-warning"
+                      <button pButton type="button" label="แก้ไข"
+                        [routerLink]="[ '/manageEmployee','edit',rowData.employee_id]" class="ui-button-warning"
                         style="width: 40%;"></button>
-                      <button pButton type="button" label="ลบ" class="ui-button-danger"
-                        style="width: 40%;margin-left: 5mm"></button>
+                      <button pButton type="button" label="ลบ" (click)="delete(rowData.employee_id)"
+                        class="ui-button-danger" style="width: 40%;margin-left: 5mm"></button>
                     </div>
 
                   </td>
@@ -114,74 +120,4 @@
     </div>
   </div>
 </div>
-<form [formGroup]="form" novalidate>
-  <p-dialog header="เพิ่มพนักงาน" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
-    [style]="{width: '500px'}">
-    <div class="ui-g ui-fluid">
-      <div class="ui-g-12">
-        <div class="form-group">
-          <div class="ui-g-4">
-            <label for="username">Username</label>
-          </div>
-          <div class="ui-g-8">
-            <input pInputText id="username" type="text" formControlName="username" />
-            <div
-              *ngIf="form.controls['username'].invalid && (form.controls['username'].dirty || form.controls['username'].touched)"
-              class="alert alert-danger">
-              <div class="text-danger text-invalid" *ngIf="form.controls['username'].errors.required">
-                กรุณากรอก Username</div>
-            </div>
-          </div>
-          <div class="ui-g-4">
-            <label for="password">Password</label>
-          </div>
-          <div class="ui-g-8">
-            <input pInputText id="password" type="password" formControlName="password" />
-            <div
-              *ngIf="form.controls['password'].invalid && (form.controls['password'].dirty || form.controls['password'].touched)"
-              class="alert alert-danger">
-              <div class="text-danger text-invalid" *ngIf="form.controls['password'].errors.required">
-                กรุณากรอก Password</div>
-              <div *ngIf="form.controls['password'].errors.minlength">ต้องมากกว่า 6 ตัวอักษร</div>
-            </div>
-          </div>
-          <div class="ui-g-4">
-            <label for="fname">ชื่อ</label>
-          </div>
-          <div class="ui-g-8">
-            <input pInputText id="fname" type="text" formControlName="fname" />
-            <div
-              *ngIf="form.controls['fname'].invalid && (form.controls['fname'].dirty || form.controls['fname'].touched)"
-              class="alert alert-danger">
-              <div class="text-danger text-invalid" *ngIf="form.controls['fname'].errors.required">
-                กรุณากรอก ชื่อ</div>
-            </div>
-          </div>
-          <div class="ui-g-4">
-            <label for="lname">นามสกุล</label>
-          </div>
-          <div class="ui-g-8">
-            <input pInputText id="lname" type="text" formControlName="lname" />
-            <div
-              *ngIf="form.controls['lname'].invalid && (form.controls['lname'].dirty || form.controls['lname'].touched)"
-              class="alert alert-danger">
-              <div class="text-danger text-invalid" *ngIf="form.controls['lname'].errors.required">
-                กรุณากรอก นามสกุล</div>
-            </div>
-          </div>
-          <div class="ui-g-4">
-            <label for="tel">เบอร์โทร</label>
-          </div>
-          <div class="ui-g-8">
-            <p-inputMask mask="999-999-9999" placeholder="099-999-9999" formControlName="tel"></p-inputMask>
-            <div *ngIf="form.controls['tel'].invalid && (form.controls['tel'].dirty || form.controls['tel'].touched)"
-              class="alert alert-danger">
-              <div class="text-danger text-invalid" *ngIf="form.controls['tel'].errors.required">
-                กรุณากรอก เบอร์โทร</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </p-dialog>
-</form>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

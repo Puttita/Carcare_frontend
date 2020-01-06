@@ -11,6 +11,7 @@ import { ManageUserService } from 'src/app/shared/services/manage-user.service';
 })
 export class ProfileComponent implements OnInit {
   public userData: Employee;
+  public userId: string;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -18,23 +19,24 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.getData();
+    this.getData();
+    this.userId = localStorage.getItem('userId');
   }
 
-  // getData() {
-  //   this.route.params.pipe(map(res => res.id)).subscribe(id => {
-  //     this.manageUser.getUser(id).subscribe(
-  //       res => {
-  //         if (res['status'] === 'Success') {
-  //           this.userData = res['data'];
-  //           console.log(this.userData);
-  //         }
-  //       },
-  //       (err) => {
-  //         console.log(err['error']['message']);
-  //       }
-  //     );
-  //   });
-  // }
+  getData() {
+    this.route.params.pipe(map(res => res.id)).subscribe(id => {
+      this.manageUser.getUser(id).subscribe(
+        res => {
+          if (res['status'] === 'Success') {
+            this.userData = res['data'];
+            console.log(this.userData);
+          }
+        },
+        (err) => {
+          console.log(err['error']['message']);
+        }
+      );
+    });
+  }
 
 }
