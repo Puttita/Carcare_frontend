@@ -14,33 +14,33 @@ export class ManageCarcareService {
     private http: HttpClient,
     private httpService: HttpClientService
   ) { }
-
+  showTypeCar() {
+    return this.http.get(ApiConstants.baseURl + '/manageTypecar')
+      .pipe(
+        map(res => {
+          return {
+            status: res['result'],
+            data: res['data']
+          };
+        })
+      );
+  }
   getCar() {
-    return this.http.get(ApiConstants.baseURl + '/manageTypecar', {
+    return this.http.get(ApiConstants.baseURl + '/car', {
       headers: {
         Authorization: `${localStorage.getItem('access-token')}`
       }
     }).pipe(
-      map((res) => {
-        console.log(res['data'])
-        const data = res['data']
-          .map(type_car => {
-            return {
-              type_car_id: type_car['type_car_id'],
-              size: type_car['size'],
-              brand: type_car['brand'],
-              model: type_car['model'],
-            };
-          });
+      map(res => {
         return {
           status: res['result'],
-          data: data
+          data: res['data'][0]
         };
       })
     );
   }
   createCar(data) {
-    return this.http.post(ApiConstants.baseURl + '/manageTypecar', data)
+    return this.http.post(ApiConstants.baseURl + '/car', data)
       .pipe(
         map(res => {
           return {
@@ -51,7 +51,7 @@ export class ManageCarcareService {
       );
   }
   updateCar(data) {
-    return this.http.put(ApiConstants.baseURl + `/manageTypecar`, data)
+    return this.http.put(ApiConstants.baseURl + `/car`, data)
       .pipe(
         map(res => {
           return {
@@ -62,7 +62,7 @@ export class ManageCarcareService {
       );
   }
   deleteCar(id) {
-    return this.http.delete(ApiConstants.baseURl + `/manageTypecar/${id}`)
+    return this.http.delete(ApiConstants.baseURl + `/car/${id}`)
       .pipe(
         map(res => {
           return {
@@ -134,26 +134,14 @@ export class ManageCarcareService {
         Authorization: `${localStorage.getItem('access-token')}`
       }
     }).pipe(
-      map((res) => {
-        const data = res['data']
-          .map(clean_service => {
-            return {
-              clean_service_id: clean_service['clean_service_id'],
-              service_name: clean_service['service_name'],
-              service_price: clean_service['service_price'],
-              service_duration: clean_service['service_duration'],
-              type_car_id: clean_service['type_car_id'],
-            };
-          });
+      map(res => {
         return {
           status: res['result'],
-          data: data
+          data: res['data'][0]
         };
       })
     );
   }
-
-
   createService(data) {
     return this.http.post(ApiConstants.baseURl + '/manageCleanservice', data)
       .pipe(
@@ -161,6 +149,27 @@ export class ManageCarcareService {
           return {
             status: res['result'],
             data: res['data'][0]
+          };
+        })
+      );
+  }
+  updateService(data) {
+    return this.http.put(ApiConstants.baseURl + `/manageCleanservice`, data)
+      .pipe(
+        map(res => {
+          return {
+            status: res['result'],
+            data: res['data'][0]
+          };
+        })
+      );
+  }
+  deleteService(id) {
+    return this.http.delete(ApiConstants.baseURl + `/manageCleanservice/${id}`)
+      .pipe(
+        map(res => {
+          return {
+            status: res['result']
           };
         })
       );

@@ -33,6 +33,8 @@ export class AuthGuard implements CanActivate {
               this.authService.setRole(res['position']);
               console.log(res['position']);
               localStorage.setItem('userId', res['id']);
+              console.log(res['id']);
+
               localStorage.setItem('username', res['fname']);
               return resolve(true);
             } else {

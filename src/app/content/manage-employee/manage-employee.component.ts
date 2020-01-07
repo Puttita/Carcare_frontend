@@ -5,6 +5,7 @@ import { Employee } from './../../shared/interfaces/employee';
 import { Component, OnInit } from '@angular/core';
 import { ManageUserService } from 'src/app/shared/services/manage-user.service';
 import { Position } from 'src/app/shared/interfaces/position';
+import { ManageCarcareService } from 'src/app/shared/services/manage-carcare.service';
 
 @Component({
   selector: 'app-manage-employee',
@@ -18,9 +19,11 @@ export class ManageEmployeeComponent implements OnInit {
   public msgs: Message[] = [];
   public employee: Employee;
   public employees: Employee[];
+  public type: any[];
   constructor(
     private manageUser: ManageUserService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private managerole: ManagePositionService,
   ) { }
 
   ngOnInit() {
@@ -32,6 +35,17 @@ export class ManageEmployeeComponent implements OnInit {
       { field: 'create_datetime', header: 'วันที่สร้าง' },
     ];
     this.getAllEmployee();
+    this.managerole.showPosition().subscribe(
+      res => {
+        console.log(res);
+        if (res.status === 'Success') {
+          this.type = res.data;
+        }
+      },
+      err => {
+        console.log(err['error']['message']);
+      }
+    )
   }
 
   getAllEmployee() {
@@ -49,7 +63,7 @@ export class ManageEmployeeComponent implements OnInit {
       message: 'ยืนยันการลบ',
       header: 'ข้อความจากระบบ',
       accept: () => {
-        const index = this.employees.findIndex(e => e.employee_id === id);
+        const index = this.personal.findIndex(e => e.employee_id === id);
         this.manageUser.deleteEmployee(id)
           .subscribe(res => {
             if (res['status'] === 'Success') {

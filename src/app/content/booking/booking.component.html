@@ -8,24 +8,45 @@
       <br>
       <p-card>
         <div class="ui-g-12">
-          <div class="ui-g-2">วันที่จอง : </div>
-          <p-calendar formControlName="date" [showIcon]="true"></p-calendar>
+          <div class="ui-g-3">วันที่จอง : </div>
+          <p-calendar [showIcon]="true"></p-calendar>
         </div>
         <div class="ui-g-12">
-          <div class="ui-g-2">เวลาที่จอง : </div>
-          <p-calendar formControlName="date" [timeOnly]="true"></p-calendar>
+          <div class="ui-g-3">เวลาที่จอง : </div>
+          <p-calendar [timeOnly]="true"></p-calendar>
         </div>
         <div class="ui-g-12">
-          <div class="ui-g-2">ชื่อ-นามสกุล : </div>
+          <div class="ui-g-3">ชื่อ-นามสกุล : </div>
           <span class="ui-float-label">
             <input id="float-input" type="text" size="30" pInputText placeholder="ชื่อ-นามสกุล">
           </span>
         </div>
         <div class="ui-g-12">
-          <div class="ui-g-2">ป้ายทะเบียนรถ : </div>
+          <div class="ui-g-3">ป้ายทะเบียนรถ : </div>
           <span class="ui-float-label">
             <input id="float-input" type="text" size="30" pInputText placeholder="ป้ายทะเบียนรถ">
           </span>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-3">ขนาดรถ : </div>
+          <p-autoComplete appendTo="body" placeholder="เลือกขนาดรถ" [dropdown]="true">
+
+          </p-autoComplete>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-3">ยี่ห้อ : </div>
+          <p-autoComplete appendTo="body" placeholder="เลือกยี่ห้อ" [dropdown]="true">
+
+          </p-autoComplete>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-3">รุ่นรถ : </div>
+          <p-autoComplete appendTo="body" placeholder="เลือกรุ่นรถ" [dropdown]="true">
+
+          </p-autoComplete>
+        </div>
+        <div class="ui-g-12">
+          <div class="ui-g-3">ประเภทบริการ : </div>
         </div>
         <button pButton type="submit" label="ยืนยัน" class="ui-button-raised ui-button-success"></button>
         <button pButton type="button" label="ยกเลิก" class="ui-button-raised ui-button-danger"></button>

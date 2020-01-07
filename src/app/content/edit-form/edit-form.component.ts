@@ -39,6 +39,8 @@ export class EditFormComponent implements OnInit {
     this.positionService.showPosition().subscribe(
       res => {
         this.role = res;
+        console.log(res);
+
       },
       err => {
         console.log(err['error']['message']);

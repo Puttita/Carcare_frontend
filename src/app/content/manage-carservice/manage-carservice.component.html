@@ -15,7 +15,7 @@
                   <!-- <button pButton type="button" id="btn-Increase" label="เพิ่ม" class="ui-button-temple"
                       style="width: 20%"></button> -->
                   <button pButton type="button" label="เพิ่ม" class="ui-button-rounded ui-button-success"
-                    style="font-size: 15px; width: 10%;"></button>
+                    (click)="showDialogToAdd()" style="font-size: 15px; width: 10%;"></button>
                 </div>
 
               </ng-template>
@@ -78,7 +78,7 @@
                         {{rowData.service_price}}
                       </div>
                       <div *ngIf="rowData[col.field] == rowData['service_duration']">
-                        {{rowData.service_duration}}
+                        {{rowData.service_duration | date:'mediumTime'}}
                       </div>
                       <div *ngIf="rowData[col.field] == rowData['size']">
                         {{rowData.size}}
@@ -89,9 +89,9 @@
                   <td>
                     <div style="text-align:center">
                       <button pButton type="button" label="แก้ไข" class="ui-button-warning"
-                        style="width: 40%;"></button>
+                        (click)="showEdit(rowData['clean_service_id'])" style="width: 40%;"></button>
                       <button pButton type="button" label="ลบ" class="ui-button-danger"
-                        style="width: 40%;margin-left: 5mm"></button>
+                        (click)="delete(rowData['clean_service_id'])" style="width: 40%;margin-left: 5mm"></button>
                     </div>
                   </td>
                 </tr>
@@ -103,3 +103,80 @@
     </div>
   </div>
 </div>
+<form [formGroup]="form" novalidate>
+  <p-dialog header="รายละเอียดรถ" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
+    [style]="{width: '500px'}" (onHide)="form.reset()">
+    <div class="ui-g ui-fluid" *ngIf="service">
+      <div class="ui-g-12">
+        <div class="form-group">
+
+          <div class="ui-g-4">
+            <label for="service_name">บริการล้างรถ</label>
+          </div>
+          <div class="ui-g-8">
+            <input pInputText id="service_name" [(ngModel)]="name" formControlName="service_name" />
+            <div
+              *ngIf="form.controls['service_name'].invalid && (form.controls['service_name'].dirty || form.controls['service_name'].touched)"
+              class="alert alert-danger">
+              <div class="text-danger text-invalid" *ngIf="form.controls['service_name'].errors.required">
+                กรุณากรอกบริการล้างรถ</div>
+            </div>
+          </div>
+          <div class="ui-g-4">
+            <label for="service_price">ราคา</label>
+          </div>
+          <div class="ui-g-8">
+            <input pInputText id="service_price" [(ngModel)]="price" formControlName="service_price" />
+            <div
+              *ngIf="form.controls['service_price'].invalid && (form.controls['service_price'].dirty || form.controls['service_price'].touched)"
+              class="alert alert-danger">
+              <div class="text-danger text-invalid" *ngIf="form.controls['service_price'].errors.required">
+                กรุณากรอกราคา</div>
+            </div>
+          </div>
+          <div class="ui-g-4">
+            <label for="service_duration">ระยะเวลาล้าง</label>
+          </div>
+          <div class="ui-g-8">
+            <p-calendar id="service_duration" [(ngModel)]="duration" timeOnly="true" showSeconds="true" hourFormat="24"
+              formControlName="service_duration">
+            </p-calendar>
+            <div
+              *ngIf="form.controls['service_duration'].invalid && (form.controls['service_duration'].dirty || form.controls['service_duration'].touched)"
+              class="alert alert-danger">
+              <div class="text-danger text-invalid" *ngIf="form.controls['service_duration'].errors.required">
+                กรุณากรอกระยะเวลาล้าง</div>
+            </div>
+          </div>
+          <div class="ui-g-4">
+            <label for="size">ขนาดรถ</label>
+          </div>
+          <div class="ui-g-8">
+            <p-autoComplete [(ngModel)]="size" [suggestions]="filteredTypeCar" value="type_car_id" appendTo="body"
+              (completeMethod)="filterTypecarMultiple($event)" placeholder="เลือกขนาดรถ" field="size" [dropdown]="true"
+              formControlName="size" readonly="true">
+              <!-- <p-dropdown [options]="type" formControlName="size" optionLabel="size" value="car_id"
+                placeholder="กรุณาเลือกขนาดรถ" id="size" appendTo="body" [(ngModel)]="size"></p-dropdown> -->
+              <div
+                *ngIf="form.controls['size'].invalid && (form.controls['size'].dirty || form.controls['size'].touched)"
+                class="alert alert-danger">
+                <div class="text-danger text-invalid" *ngIf="form.controls['size'].errors.required">
+                  กรุณากรอกขนาดรถ</div>
+              </div>
+            </p-autoComplete>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button" id="btn-Clear" pButton (click)="clear()" label="ยกเลิก"></button>
+        <button *ngIf="newService" id="btn-Save" type="submit" pButton (click)="save()" label="บันทึก"
+          [disabled]="form.pristine || form.invalid"></button>
+        <button *ngIf="!newService" id="btn-Update" type="button" pButton label="แก้ไข" (click)="update()"
+          [disabled]="form.invalid"></button>
+      </div>
+    </p-footer>
+  </p-dialog>
+</form>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

@@ -24,6 +24,7 @@
     "@fullcalendar/daygrid": "^4.3.0",
     "@fullcalendar/interaction": "^4.3.0",
     "@fullcalendar/timegrid": "^4.3.0",
+    "dateformat": "^3.0.3",
     "ngx-spinner": "^8.1.0",
     "primeicons": "^2.0.0",
     "primeng": "^9.0.0-rc.2",

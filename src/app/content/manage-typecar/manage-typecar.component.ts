@@ -1,8 +1,9 @@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ManageCarcareService } from './../../shared/services/manage-carcare.service';
 import { Component, OnInit } from '@angular/core';
-import { MenuItem, Message, ConfirmationService, SelectItem } from 'primeng/api';
+import { Message, ConfirmationService, SelectItem } from 'primeng/api';
 import { TypeCar } from 'src/app/shared/interfaces/type-car';
+import { Car } from 'src/app/shared/interfaces/car';
 
 @Component({
   selector: 'app-manage-typecar',
@@ -14,29 +15,22 @@ export class ManageTypecarComponent implements OnInit {
   public car: any[];
   public msgs: Message[] = [];
   newtypeCar: boolean;
-  typecar: TypeCar;
-  typecars: TypeCar[];
+  typecar: Car;
+  typecars: Car[];
   public form: FormGroup;
   public displayDialog: boolean;
-  public size: string;
+  public size: TypeCar;
   public brand: string;
   public model: string;
   Cartype: SelectItem[];
+  public type: any[];
+  typeId: TypeCar;
+  public filteredTypeCar: any[];
   constructor(
     private manageCar: ManageCarcareService,
     private formBuilder: FormBuilder,
     private confirmationService: ConfirmationService
-  ) {
-    this.Cartype = [
-      { label: 'S', value: 'S' },
-      { label: 'M', value: 'M' },
-      { label: 'L', value: 'L' },
-      { label: 'XL', value: 'XL' },
-      { label: 'Van', value: 'Van' },
-      { label: 'Motorcycle', value: 'Motorcycle' },
-      { label: 'Bigbike', value: 'Bigbike' },
-    ];
-  }
+  ) { }
 
   ngOnInit() {
     this.cols = [
@@ -46,11 +40,23 @@ export class ManageTypecarComponent implements OnInit {
     ];
     this.getAllCar();
     this.createForm();
+    this.manageCar.showTypeCar().subscribe(
+      res => {
+        console.log(res);
+        if (res.status === 'Success') {
+          this.type = res.data;
+        }
+      },
+      err => {
+        console.log(err['error']['message']);
+      }
+    )
   }
   getAllCar() {
     this.manageCar.getCar().subscribe(res => {
       if (res['status'] === 'Success') {
-        this.car = res.data;
+        this.car = res['data'];
+        console.log(res.data);
       }
     },
       (e) => console.log(e['error']['message'])
@@ -74,43 +80,39 @@ export class ManageTypecarComponent implements OnInit {
     console.log(id);
     console.log(this.typecar)
     this.newtypeCar = false;
-    this.typecar = this.car.filter(e => e.type_car_id === id)[0];
+    this.typecar = this.car.filter(e => e.car_id === id)[0];
     this.brand = this.typecar['brand'];
     this.model = this.typecar['model'];
-    this.size = this.typecar['size'];
+    this.size = {
+      type_car_id: +this.typecar['type_car_id'],
+      size: this.typecar['size']
+    };
+    console.log(this.size);
+
     this.displayDialog = true;
   }
 
   save() {
     this.msgs = [];
-    this.confirmationService.confirm({
-      message: 'ยืนยันการบันทึกข้อมูล',
-      header: 'ข้อความจากระบบ',
-      accept: () => {
-        this.typecar.brand = this.brand;
-        this.typecar.model = this.model;
-        this.typecar.size = this.size;
-        this.manageCar.createCar(this.typecar)
-          .subscribe(res => {
-            if (res['status'] === 'Success') {
-              this.msgs = [{ severity: 'success', summary: 'เพิ่มสำเร็จ', detail: 'การดำเนินการสำเร็จ' }];
-              this.typecars = [
-                ...this.typecars,
-                res['data']
-              ];
-            }
-          },
-            (e) => {
-              console.log(e['error']['message']);
-              this.msgs.push({ severity: 'error', summary: 'ข้อความจากระบบ', detail: 'การดำเนินการไม่สำเร็จ' });
-            }
-          );
-        this.clear();
-      },
-      reject: () => {
-
-      }
-    });
+    const data = {
+      brand: this.brand,
+      model: this.model,
+      type_car_id: this.size['type_car_id']
+    };
+    console.log(data);
+    this.manageCar.createCar(data)
+      .toPromise().then(res => {
+        if (res['status'] === 'Success') {
+          this.msgs = [{ severity: 'success', summary: 'เพิ่มสำเร็จ', detail: 'การดำเนินการสำเร็จ' }];
+          this.car = [
+            ...this.car,
+            res['data'][0]
+          ];
+        } else {
+          this.msgs = [{ severity: 'error', summary: 'ข้อความจากระบบ', detail: 'เพิ่มตู้สัมภาระไม่สำเร็จ' }];
+        }
+      }).catch((e) => console.log(e['error']['message']));
+    this.clear();
   }
 
   update() {
@@ -119,15 +121,18 @@ export class ManageTypecarComponent implements OnInit {
       message: 'ยืนยันการแก้ไข',
       header: 'ข้อความจากระบบ',
       accept: () => {
-        this.typecar.brand = this.brand;
-        this.typecar.model = this.model;
-        this.typecar.size = this.size;
-        this.manageCar.updateCar(this.typecar)
+        const data = {
+          car_id: this.typecar['car_id'],
+          brand: this.brand,
+          model: this.model,
+          type_car_id: this.size['type_car_id']
+        };
+        this.manageCar.updateCar(data)
           .subscribe(res => {
             if (res['status'] === 'Success') {
               this.msgs.push({ severity: 'success', summary: 'ข้อความจากระบบ', detail: 'การดำเนินการสำเร็จ' });
               const index = this.car.findIndex(e => e.type_car_id === res['data']['type_car_id']);
-              this.car[index] = res['data'];
+              // this.car[index].brand = res['data']['brand'];
             }
           },
             (e) => {
@@ -149,7 +154,10 @@ export class ManageTypecarComponent implements OnInit {
       message: 'ยืนยันการลบ',
       header: 'ข้อความจากระบบ',
       accept: () => {
-        const index = this.car.findIndex(e => e.type_car_id === id);
+        const index = this.car.findIndex(e => e.car_id === id);
+        console.log(index);
+        console.log(id);
+
         this.manageCar.deleteCar(id)
           .subscribe(res => {
             if (res['status'] === 'Success') {
@@ -175,8 +183,24 @@ export class ManageTypecarComponent implements OnInit {
     this.typecar = {};
     this.brand = '';
     this.model = '';
-    this.size = '';
+    // this.size = '';
     this.displayDialog = false;
     this.form.reset();
+  }
+
+  filterTypecarMultiple(event) {
+    const query = event.query;
+    console.log(query);
+    this.filteredTypeCar = this.filterTypecar(query, this.type);
+  }
+  filterTypecar(query, type: any[]): any[] {
+    const filtered: any[] = [];
+    for (let i = 0; i < type.length; i++) {
+      const types = type[i];
+      if ((types.size).indexOf(query) === 0) {
+        filtered.push(types);
+      }
+    }
+    return filtered;
   }
 }

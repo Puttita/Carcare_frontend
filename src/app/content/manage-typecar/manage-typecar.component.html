@@ -53,35 +53,34 @@
               <ng-template pTemplate="body" let-rowData let-columns="columns">
                 <tr [pSelectableRow]="rowData">
                   <td [pSelectableRow]="rowData" style="text-align: center">
-                    {{rowData.brand}}
+                    {{rowData["brand"]}}
                   </td>
                   <td [pSelectableRow]="rowData" style="text-align: center">
-                    {{rowData.model}}
+                    {{rowData["model"]}}
                   </td>
                   <td [pSelectableRow]="rowData" style="text-align: center">
-                    {{rowData.size}}
+                    {{rowData["size"]}}
                   </td>
 
                   <td *ngFor="let col of columns;">
                     <div *ngIf="rowData[col.field] != rowData['status']">
                       <span class="ui-column-title">{{col.header}}</span>
                       <div *ngIf="rowData[col.field] == rowData['brand'] ">
-                        {{rowData.brand}}
+                        {{rowData["brand"]}}
                       </div>
                       <div *ngIf="rowData[col.field] == rowData['model'] ">
-                        {{rowData.model}}
+                        {{rowData["model"]}}
                       </div>
                       <div *ngIf="rowData[col.field] == rowData['size']">
-                        {{rowData.size}}
+                        {{rowData["size"]}}
                       </div>
                     </div>
-
                   </td>
                   <td>
                     <div style="text-align:center">
                       <button pButton type="button" label="แก้ไข" class="ui-button-warning"
-                        (click)="showEdit(rowData['type_car_id'])" style="width: 40%;"></button>
-                      <button pButton type="button" label="ลบ" (click)="delete(rowData['type_car_id'])"
+                        (click)="showEdit(rowData['car_id'])" style="width: 40%;"></button>
+                      <button pButton type="button" label="ลบ" (click)="delete(rowData['car_id'])"
                         class="ui-button-danger" style="width: 40%;margin-left: 5mm"></button>
                     </div>
 
@@ -130,13 +129,18 @@
             <label for="size">ขนาดรถ</label>
           </div>
           <div class="ui-g-8">
-            <p-dropdown [options]="Cartype" formControlName="size" placeholder="กรุณาเลือกขนาดรถ" id="size"
-              appendTo="body" [(ngModel)]="size"></p-dropdown>
-            <div *ngIf="form.controls['size'].invalid && (form.controls['size'].dirty || form.controls['size'].touched)"
-              class="alert alert-danger">
-              <div class="text-danger text-invalid" *ngIf="form.controls['size'].errors.required">
-                กรุณากรอกขนาดรถ</div>
-            </div>
+            <p-autoComplete [(ngModel)]="size" [suggestions]="filteredTypeCar" value="type_car_id" appendTo="body"
+              (completeMethod)="filterTypecarMultiple($event)" placeholder="เลือกขนาดรถ" field="size" [dropdown]="true"
+              formControlName="size">
+              <!-- <p-dropdown [options]="type" formControlName="size" optionLabel="size" value="car_id"
+                placeholder="กรุณาเลือกขนาดรถ" id="size" appendTo="body" [(ngModel)]="size"></p-dropdown> -->
+              <div
+                *ngIf="form.controls['size'].invalid && (form.controls['size'].dirty || form.controls['size'].touched)"
+                class="alert alert-danger">
+                <div class="text-danger text-invalid" *ngIf="form.controls['size'].errors.required">
+                  กรุณากรอกขนาดรถ</div>
+              </div>
+            </p-autoComplete>
           </div>
         </div>
       </div>
@@ -144,7 +148,7 @@
     <p-footer>
       <div class="ui-dialog-buttonpane ui-helper-clearfix">
         <button type="button" id="btn-Clear" pButton (click)="clear()" label="ยกเลิก"></button>
-        <button *ngIf="newtypeCar" id="btn-Save" type="button" pButton (click)="save()" label="บันทึก"
+        <button *ngIf="newtypeCar" id="btn-Save" type="submit" pButton (click)="save()" label="บันทึก"
           [disabled]="form.pristine || form.invalid"></button>
         <button *ngIf="!newtypeCar" id="btn-Update" type="button" pButton label="แก้ไข" (click)="update()"
           [disabled]="form.invalid"></button>

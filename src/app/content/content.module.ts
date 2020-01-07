@@ -34,6 +34,7 @@ import { MessageModule } from 'primeng/message';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { EditDataEmployeeComponent } from './edit-data-employee/edit-data-employee.component';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 @NgModule({
   declarations: [
     ContentComponent,
@@ -69,7 +70,8 @@ import { EditDataEmployeeComponent } from './edit-data-employee/edit-data-employ
     MessagesModule,
     MessageModule,
     ConfirmDialogModule,
-    ToastModule
+    ToastModule,
+    AutoCompleteModule
   ],
   providers: [AuthService, AuthGuard, HttpClientService, ConfirmationService],
 })

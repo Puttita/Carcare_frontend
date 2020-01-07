@@ -24,6 +24,8 @@ export class MenubarComponent implements OnInit {
   ngOnInit() {
     this.menubar();
     this.userId = localStorage.getItem('userId');
+    console.log(this.userId);
+
     this.authService.getRole().subscribe(res => this.role = res);
   }
   menubar() {
@@ -31,9 +33,9 @@ export class MenubarComponent implements OnInit {
       { label: 'จัดการเจ้าของร้าน', icon: 'pi pi-fw pi-users', routerLink: '/manageManager' },
     ];
     this.items2 = [
-      { label: 'ข้อมูลส่วนตัว', icon: 'pi pi-fw pi-users', routerLink: '/manageEmployee/edit/:id' },
+      { label: 'ข้อมูลส่วนตัว', icon: 'pi pi-fw pi-users', routerLink: '/manageEmployee,userId.id' },
       { label: 'จัดการพนักงาน', icon: 'pi pi-fw pi-user-plus', routerLink: '/manageEmployee' },
-      { label: 'จัดการประเภทรถ', icon: 'pi pi-fw pi-mobile', routerLink: '/manageTypecar' },
+      { label: 'จัดการประเภทรถ', icon: 'pi pi-fw pi-mobile', routerLink: '/car' },
       { label: 'จัดการบริการรถ', icon: 'pi pi-fw pi-mobile', routerLink: '/manageCarservice' },
       { label: 'จัดการอุปการณ์ล้างรถ', icon: 'pi pi-fw pi-shopping-cart', routerLink: '/manageTool' },
       { label: 'จัดการโปรโมชั่น', icon: 'pi pi-fw pi-shopping-cart', routerLink: '/managePromotion' },

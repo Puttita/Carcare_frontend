@@ -64,7 +64,7 @@
                     {{rowData.date_end | date:'dd/MM/yyyy'}}
                   </td>
                   <td [pSelectableRow]="rowData" style="text-align: center">
-                    {{rowData.discount_percent }}
+                    {{rowData.discount_percent }} %
                   </td>
                   <td *ngFor="let col of columns;">
                     <div *ngIf="rowData[col.field] != rowData['status']">
