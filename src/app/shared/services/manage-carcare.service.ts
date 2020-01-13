@@ -39,6 +39,20 @@ export class ManageCarcareService {
       })
     );
   }
+  getCarId(id) {
+    return this.http.get(ApiConstants.baseURl + `/car/getBrand/${id}`, {
+      headers: {
+        Authorization: `${localStorage.getItem('access-token')}`
+      }
+    }).pipe(
+      map(res => {
+        return {
+          status: res['result'],
+          data: res['data']
+        };
+      })
+    );
+  }
   createCar(data) {
     return this.http.post(ApiConstants.baseURl + '/car', data)
       .pipe(

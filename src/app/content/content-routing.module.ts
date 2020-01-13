@@ -1,3 +1,4 @@
+import { BookingFormComponent } from './booking-form/booking-form.component';
 import { EditDataEmployeeComponent } from './edit-data-employee/edit-data-employee.component';
 import { EditFormComponent } from './edit-form/edit-form.component';
 import { BookingComponent } from './booking/booking.component';
@@ -13,13 +14,14 @@ import { HomeComponent } from './home/home.component';
 import { AuthGuard } from '../shared/guard/auth.guard';
 import { ManageTypecarComponent } from './manage-typecar/manage-typecar.component';
 import { ManageCarserviceComponent } from './manage-carservice/manage-carservice.component';
+import { BookingDetailComponent } from './booking-detail/booking-detail.component';
 
 
 const routes: Routes = [
   {
     path: '',
     component: ContentComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -78,8 +80,21 @@ const routes: Routes = [
       },
       {
         path: 'manageBooking',
-        component: BookingComponent
-      }
+        children: [
+          {
+            path: '',
+            component: BookingComponent
+          },
+          {
+            path: 'create',
+            component: BookingFormComponent,
+          },
+          {
+            path: 'detail/:id',
+            component: BookingDetailComponent,
+          }
+        ]
+      },
 
     ]
   }

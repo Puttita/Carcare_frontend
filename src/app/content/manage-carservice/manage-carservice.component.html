@@ -155,8 +155,6 @@
             <p-autoComplete [(ngModel)]="size" [suggestions]="filteredTypeCar" value="type_car_id" appendTo="body"
               (completeMethod)="filterTypecarMultiple($event)" placeholder="เลือกขนาดรถ" field="size" [dropdown]="true"
               formControlName="size" readonly="true">
-              <!-- <p-dropdown [options]="type" formControlName="size" optionLabel="size" value="car_id"
-                placeholder="กรุณาเลือกขนาดรถ" id="size" appendTo="body" [(ngModel)]="size"></p-dropdown> -->
               <div
                 *ngIf="form.controls['size'].invalid && (form.controls['size'].dirty || form.controls['size'].touched)"
                 class="alert alert-danger">

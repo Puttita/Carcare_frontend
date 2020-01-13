@@ -35,6 +35,9 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { EditDataEmployeeComponent } from './edit-data-employee/edit-data-employee.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { CheckboxModule } from 'primeng/checkbox';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { BookingFormComponent } from './booking-form/booking-form.component';
 @NgModule({
   declarations: [
     ContentComponent,
@@ -50,7 +53,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     BookingDetailComponent,
     ScheduleComponent,
     EditFormComponent,
-    EditDataEmployeeComponent
+    EditDataEmployeeComponent,
+    BookingFormComponent
   ],
   imports: [
     CommonModule,
@@ -71,7 +75,9 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     MessageModule,
     ConfirmDialogModule,
     ToastModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    CheckboxModule,
+    MultiSelectModule
   ],
   providers: [AuthService, AuthGuard, HttpClientService, ConfirmationService],
 })

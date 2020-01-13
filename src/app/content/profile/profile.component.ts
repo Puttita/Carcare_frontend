@@ -25,10 +25,10 @@ export class ProfileComponent implements OnInit {
 
   getData() {
     this.route.params.pipe(map(res => res.id)).subscribe(id => {
-      this.manageUser.getUser(id).subscribe(
+      this.manageUser.getProfile(id).subscribe(
         res => {
           if (res['status'] === 'Success') {
-            this.userData = res['data'];
+            this.userData = res.data;
             console.log(this.userData);
           }
         },

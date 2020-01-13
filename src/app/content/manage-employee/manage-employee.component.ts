@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { ManageUserService } from 'src/app/shared/services/manage-user.service';
 import { Position } from 'src/app/shared/interfaces/position';
 import { ManageCarcareService } from 'src/app/shared/services/manage-carcare.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-employee',
@@ -20,10 +21,14 @@ export class ManageEmployeeComponent implements OnInit {
   public employee: Employee;
   public employees: Employee[];
   public type: any[];
+  public personalId: string;
+  public userId: string;
   constructor(
     private manageUser: ManageUserService,
     private confirmationService: ConfirmationService,
     private managerole: ManagePositionService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -32,7 +37,6 @@ export class ManageEmployeeComponent implements OnInit {
       { field: 'employee_tel', header: 'เบอร์โทร' },
       { field: 'position_role', header: 'ตำแหน่ง' },
       { field: 'position_work', header: 'การทำงาน' },
-      { field: 'create_datetime', header: 'วันที่สร้าง' },
     ];
     this.getAllEmployee();
     this.managerole.showPosition().subscribe(
@@ -45,8 +49,14 @@ export class ManageEmployeeComponent implements OnInit {
       err => {
         console.log(err['error']['message']);
       }
-    )
+    );
+    // this.personalId = this.route.snapshot.paramMap.get('id');
+    // this.userId = localStorage.getItem('userId');
   }
+  // goToEdit() {
+  //   const path = `/manageEmployee/edit/${this.userId}`;
+  //   this.router.navigate([path]);
+  // }
 
   getAllEmployee() {
     this.manageUser.getAllUsers().subscribe(res => {

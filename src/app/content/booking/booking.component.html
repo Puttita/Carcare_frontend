@@ -1,55 +1,142 @@
 <div class="ui-g">
   <div class="ui-g-12 ui-lg-12">
     <div style="text-align:center">
-      <h1>จองคิวล้างรถ</h1>
+      <h1>จัดการจองคิวล้างรถ</h1>
     </div>
-    <div class="container" style="width: 50%;">
+    <div class="container" style="width: 95%;">
       <div class="line"></div>
       <br>
-      <p-card>
-        <div class="ui-g-12">
-          <div class="ui-g-3">วันที่จอง : </div>
-          <p-calendar [showIcon]="true"></p-calendar>
-        </div>
-        <div class="ui-g-12">
-          <div class="ui-g-3">เวลาที่จอง : </div>
-          <p-calendar [timeOnly]="true"></p-calendar>
-        </div>
-        <div class="ui-g-12">
-          <div class="ui-g-3">ชื่อ-นามสกุล : </div>
-          <span class="ui-float-label">
-            <input id="float-input" type="text" size="30" pInputText placeholder="ชื่อ-นามสกุล">
-          </span>
-        </div>
-        <div class="ui-g-12">
-          <div class="ui-g-3">ป้ายทะเบียนรถ : </div>
-          <span class="ui-float-label">
-            <input id="float-input" type="text" size="30" pInputText placeholder="ป้ายทะเบียนรถ">
-          </span>
-        </div>
-        <div class="ui-g-12">
-          <div class="ui-g-3">ขนาดรถ : </div>
-          <p-autoComplete appendTo="body" placeholder="เลือกขนาดรถ" [dropdown]="true">
+      <div class="row">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-lg-12">
+            <p-table #dt  [paginator]="true" [value]="book" [rows]="10" [responsive]="true" selectionMode="single"
+              (onRowSelect)="onRowSelect($event)">
+              <ng-template pTemplate="caption">
+                <div style="text-align:left">
+                  <button pButton type="button" label="จองคิว" class="ui-button-rounded ui-button-success"
+                    style="font-size: 15px; width: 10%;" [routerLink]="[ '/manageBooking/create']"></button>
+                </div>
 
-          </p-autoComplete>
-        </div>
-        <div class="ui-g-12">
-          <div class="ui-g-3">ยี่ห้อ : </div>
-          <p-autoComplete appendTo="body" placeholder="เลือกยี่ห้อ" [dropdown]="true">
+              </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th pSortableColumn="name">
+                    ชื่อผู้จอง
+                    <p-sortIcon field="name" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th pSortableColumn="reserv_date">
+                    วันที่จอง
+                    <p-sortIcon field="reserv_date" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th pSortableColumn="dateTime">
+                    เวลาที่จอง
+                    <p-sortIcon field="dateTime" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th pSortableColumn="car">
+                    ข้อมูลรถ (ทะเบียนรถ รุ่นรถ ยี่ห้อรถ)
+                    <p-sortIcon field="car" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th pSortableColumn="service">
+                    บริการ
+                    <p-sortIcon field="service" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th pSortableColumn="price">
+                    ค่าบริการ
+                    <p-sortIcon field="price" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <th pSortableColumn="duration">
+                    ระยะเวลาบริการ
+                    <p-sortIcon field="duration" ariaLabel="Activate to sort"
+                      ariaLabelDesc="Activate to sort in descending order"
+                      ariaLabelAsc="Activate to sort in ascending order">
+                    </p-sortIcon>
+                  </th>
+                  <!-- <th>
+                  </th> -->
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    {{rowData.customer_name}}
+                  </td>
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    {{rowData.reserv_date  | date:'dd/MM/yyyy'}}
+                  </td>
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    {{rowData.start_date}} - {{rowData.end_date}}
+                  </td>
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    {{rowData.license}}
+                  </td>
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    -
+                  </td>
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    {{rowData.total_price}} บาท
+                  </td>
+                  <td [pSelectableRow]="rowData" style="text-align: center">
+                    -
+                  </td>
+                  <td *ngFor="let col of columns;">
+                    <div *ngIf="rowData[col.field] != rowData['status']">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <div *ngIf="rowData[col.field] == rowData['customer_name'] ">
+                        {{rowData.customer_name}}
+                      </div>
+                      <div *ngIf="rowData[col.field] == rowData['reserv_date']">
+                        {{rowData.reserv_date}}
+                      </div>
+                      <div *ngIf="rowData[col.field] == rowData['start_date']">
+                        {{rowData.start_date | date:'mediumTime'}} - {{rowData.end_date | date:'mediumTime'}}
+                      </div>
+                      <div *ngIf="rowData[col.field] == rowData['license'] ">
+                        {{rowData.license}}
+                      </div>
+                      <div *ngIf="rowData[col.field] == rowData['total_price']">
+                        -
+                      </div>
+                      <div *ngIf="rowData[col.field] == rowData['total_price']">
+                        {{rowData.total_price }}
+                      </div>
+                      <div *ngIf="rowData[col.field] == rowData['total_price']">
+                        -
+                      </div>
+                    </div>
 
-          </p-autoComplete>
+                  </td>
+                  <!-- <td>
+                    <div style="text-align:center">
+                      <button pButton type="button" label="ตรวจสอบ" class="ui-button-info" style="width: 80%;"
+                        (onRowSelect)="onRowSelect($event)"></button>
+                      <button pButton type="button" label="ลบ" class="ui-button-danger"
+                        style="width: 40%;margin-left: 5mm"></button>
+                    </div>
+                  </td> -->
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
         </div>
-        <div class="ui-g-12">
-          <div class="ui-g-3">รุ่นรถ : </div>
-          <p-autoComplete appendTo="body" placeholder="เลือกรุ่นรถ" [dropdown]="true">
-
-          </p-autoComplete>
-        </div>
-        <div class="ui-g-12">
-          <div class="ui-g-3">ประเภทบริการ : </div>
-        </div>
-        <button pButton type="submit" label="ยืนยัน" class="ui-button-raised ui-button-success"></button>
-        <button pButton type="button" label="ยกเลิก" class="ui-button-raised ui-button-danger"></button>
-      </p-card>
+      </div>
     </div>
   </div>
+</div>

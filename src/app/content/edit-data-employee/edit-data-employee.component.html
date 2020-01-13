@@ -1,4 +1,4 @@
-<form [formGroup]="formEdit" novalidate >
+<form [formGroup]="formEdit" (submit)="onSubmit($event)" novalidate>
   <div class="ui-g">
     <div class="ui-g-12 ui-lg-12">
       <div style="text-align:center">
@@ -50,7 +50,7 @@
                 <label for="role">ตำแหน่ง :</label>
               </div>
               <div class="ui-g-8">
-                <p-dropdown  [options]="role" optionLabel="position_role" value="position_id" formControlName="role"
+                <p-dropdown [options]="role" optionLabel="position_role" value="position_id" formControlName="role"
                   placeholder="กรุณาเลือกตำแหน่ง" [style]="{ width: '60%' }">
                 </p-dropdown>
                 <div
@@ -74,12 +74,12 @@
       </div>
       <div class="center carcare-button" style="text-align: center;">
         <p-button type="submit" label="ยืนยัน"></p-button>
-        <p-button type="button" label="ยกเลิก"></p-button>
+        <p-button type="button" label="ยกเลิก" (onClick)="showCancelConfirm()"></p-button>
       </div>
     </div>
   </div>
 </form>
-<!-- <p-toast position="center" key="systemMessage" (onClose)="onReject()" [modal]="true" [baseZIndex]="5000" >
+<p-toast position="center" key="systemMessage" (onClose)="onReject()" [modal]="true" [baseZIndex]="5000">
   <ng-template let-message pTemplate="message">
     <div style="text-align: center">
       <h3>{{ message.summary }}</h3>
@@ -88,17 +88,17 @@
   </ng-template>
 </p-toast>
 
-<p-confirmDialog > </p-confirmDialog >
-  <p-toast position="center" key="alertMessage" (onClose)="onReject()" [modal]="true" [baseZIndex]="5000" >
-    <ng-template let-message pTemplate="message">
-      <div style="text-align: center">
-        <h3>{{ message.summary }}</h3>
-        <p>{{ message.detail }}</p>
+<p-confirmDialog> </p-confirmDialog>
+<p-toast position="center" key="alertMessage" (onClose)="onReject()" [modal]="true" [baseZIndex]="5000">
+  <ng-template let-message pTemplate="message">
+    <div style="text-align: center">
+      <h3>{{ message.summary }}</h3>
+      <p>{{ message.detail }}</p>
+    </div>
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12">
+        <button type="button" pButton [label]="messageback" class="ui-button-success" [routerLink]="urlback"></button>
       </div>
-      <div class="ui-g ui-fluid">
-        <div class="ui-g-12">
-          <button type="button" pButton [label]="messageback" class="ui-button-success" [routerLink]="urlback"></button>
-        </div>
-      </div>
-    </ng-template>
-  </p-toast> -->
+    </div>
+  </ng-template>
+</p-toast>

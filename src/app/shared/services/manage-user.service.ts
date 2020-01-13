@@ -18,8 +18,24 @@ export class ManageUserService {
 
   getUser(id) {
     console.log(id);
-
     return this.http.get(ApiConstants.baseURl + `/manageEmployee/edit/${id}`, {
+      headers: {
+        Authorization: `${localStorage.getItem('access-token')}`
+      }
+    }).pipe(
+
+      map((res) => {
+        console.log(res['data'][0]);
+        return {
+          status: res['result'],
+          data: res['data'][0]
+        };
+      })
+    );
+  }
+  getProfile(id) {
+    console.log(id);
+    return this.http.get(ApiConstants.baseURl + `/manageEmployee/editprofile/${id}`, {
       headers: {
         Authorization: `${localStorage.getItem('access-token')}`
       }
@@ -48,6 +64,24 @@ export class ManageUserService {
       }
       )
     );
+  }
+  updateEmployee(id, dataUser) {
+    const data = {
+      ...dataUser
+    };
+    console.log(data);
+    return this.http.put(ApiConstants.baseURl + `/manageEmployee/edit/${id}`, data, {
+      headers: {
+        Authorization: `${localStorage.getItem('access-token')}`
+      }
+    }).pipe(
+      map(res => {
+        return {
+          status: res['result'],
+        };
+      }
+      )
+    );
 
   }
   getAllUsers() {
@@ -56,23 +90,10 @@ export class ManageUserService {
         Authorization: `${localStorage.getItem('access-token')}`
       }
     }).pipe(
-      map((res) => {
-        const data = res['data']
-          .map(employee => {
-            return {
-              employee_id: employee['employee_id'],
-              employee_fname: employee['employee_fname'],
-              employee_lname: employee['employee_lname'],
-              employee_tel: employee['employee_tel'],
-              position_id: employee['position_id'],
-              position_role: employee['position_role'],
-              position_work: employee['position_work'],
-              create_datetime: employee['create_datetime']
-            };
-          });
+      map(res => {
         return {
           status: res['result'],
-          data: data
+          data: res['data'][0]
         };
       })
     );

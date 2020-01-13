@@ -22,37 +22,30 @@
               </ng-template>
               <ng-template pTemplate="header" let-columns>
                 <tr>
-                  <th pSortableColumn="name">
+                  <th pSortableColumn="employee_fname">
                     ชื่อ-นามสุกล
-                    <p-sortIcon field="name" ariaLabel="Activate to sort"
+                    <p-sortIcon field="employee_fname" ariaLabel="Activate to sort"
                       ariaLabelDesc="Activate to sort in descending order"
                       ariaLabelAsc="Activate to sort in ascending order">
                     </p-sortIcon>
                   </th>
-                  <th pSortableColumn="tel">
+                  <th pSortableColumn="employee_tel">
                     เบอร์โทร
-                    <p-sortIcon field="tel" ariaLabel="Activate to sort"
+                    <p-sortIcon field="employee_tel" ariaLabel="Activate to sort"
                       ariaLabelDesc="Activate to sort in descending order"
                       ariaLabelAsc="Activate to sort in ascending order">
                     </p-sortIcon>
                   </th>
-                  <th pSortableColumn="role">
+                  <th pSortableColumn="position_role">
                     ตำแหน่ง
-                    <p-sortIcon field="role" ariaLabel="Activate to sort"
+                    <p-sortIcon field="position_role" ariaLabel="Activate to sort"
                       ariaLabelDesc="Activate to sort in descending order"
                       ariaLabelAsc="Activate to sort in ascending order">
                     </p-sortIcon>
                   </th>
-                  <th pSortableColumn="work">
+                  <th pSortableColumn="position_work">
                     การทำงาน
-                    <p-sortIcon field="work" ariaLabel="Activate to sort"
-                      ariaLabelDesc="Activate to sort in descending order"
-                      ariaLabelAsc="Activate to sort in ascending order">
-                    </p-sortIcon>
-                  </th>
-                  <th pSortableColumn="date">
-                    วันที่สร้าง
-                    <p-sortIcon field="date" ariaLabel="Activate to sort"
+                    <p-sortIcon field="position_work" ariaLabel="Activate to sort"
                       ariaLabelDesc="Activate to sort in descending order"
                       ariaLabelAsc="Activate to sort in ascending order">
                     </p-sortIcon>
@@ -72,13 +65,10 @@
                     {{rowData.employee_tel}}
                   </td>
                   <td [pSelectableRow]="rowData" style="text-align: center">
-                    {{rowData.position_id}}
+                    {{rowData.position_role}}
                   </td>
                   <td [pSelectableRow]="rowData" style="text-align: center">
-                    -
-                  </td>
-                  <td [pSelectableRow]="rowData" style="text-align: center">
-                    {{rowData.create_datetime | date:'dd/MM/yyyy'}}
+                    {{rowData.position_work}}
                   </td>
                   <td *ngFor="let col of columns;">
                     <div *ngIf="rowData[col.field] != rowData['status']">
@@ -89,14 +79,11 @@
                       <div *ngIf="rowData[col.field] == rowData['employee_tel']">
                         {{rowData.employee_tel}}
                       </div>
-                      <div *ngIf="rowData[col.field] == rowData['position_id'] ">
-                        {{rowData.position_id}}
+                      <div *ngIf="rowData[col.field] == rowData['position_role'] ">
+                        {{rowData.position_role}}
                       </div>
                       <div *ngIf="rowData[col.field] == rowData['position_work']">
-                        -
-                      </div>
-                      <div *ngIf="rowData[col.field] == rowData['create_datetime']">
-                        {{rowData.create_datetime | date:'yyyy/MM/dd h:mm:ss'}}
+                        {{rowData.position_work}}
                       </div>
                     </div>
 
@@ -104,7 +91,7 @@
                   <td>
                     <div style="text-align:center">
                       <button pButton type="button" label="แก้ไข"
-                        [routerLink]="[ '/manageEmployee','edit',rowData.employee_id ]" class="ui-button-warning"
+                        [routerLink]="[ '/manageEmployee/edit',rowData.employee_id ]" class="ui-button-warning"
                         style="width: 40%;"></button>
                       <button pButton type="button" label="ลบ" (click)="delete(rowData.employee_id)"
                         class="ui-button-danger" style="width: 40%;margin-left: 5mm"></button>

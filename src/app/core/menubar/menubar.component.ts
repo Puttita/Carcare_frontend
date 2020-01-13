@@ -1,3 +1,4 @@
+import { Router, ActivatedRoute } from '@angular/router';
 import { ManagePositionService } from './../../shared/services/manage-position.service';
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
@@ -16,14 +17,17 @@ export class MenubarComponent implements OnInit {
 
   public userId: string;
   public role: string;
+  public personalId: string;
 
   constructor(
     private authService: AuthService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
-    this.menubar();
+    this.personalId = this.route.snapshot.paramMap.get('id');
     this.userId = localStorage.getItem('userId');
+    this.menubar();
     console.log(this.userId);
 
     this.authService.getRole().subscribe(res => this.role = res);
@@ -33,7 +37,7 @@ export class MenubarComponent implements OnInit {
       { label: 'จัดการเจ้าของร้าน', icon: 'pi pi-fw pi-users', routerLink: '/manageManager' },
     ];
     this.items2 = [
-      { label: 'ข้อมูลส่วนตัว', icon: 'pi pi-fw pi-users', routerLink: '/manageEmployee,userId.id' },
+      { label: 'ข้อมูลส่วนตัว', icon: 'pi pi-fw pi-users', routerLink: ['/manageEmployee', this.userId]},
       { label: 'จัดการพนักงาน', icon: 'pi pi-fw pi-user-plus', routerLink: '/manageEmployee' },
       { label: 'จัดการประเภทรถ', icon: 'pi pi-fw pi-mobile', routerLink: '/car' },
       { label: 'จัดการบริการรถ', icon: 'pi pi-fw pi-mobile', routerLink: '/manageCarservice' },
