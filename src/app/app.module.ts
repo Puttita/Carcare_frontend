@@ -1,3 +1,4 @@
+import { FormatSelectItemPipe } from './shared/pipe/format-select-item-pipe.pipe';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
@@ -20,7 +21,8 @@ import { MenuModule } from 'primeng/menu';
     AppComponent,
     FooterComponent,
     TopbarComponent,
-    MenubarComponent
+    MenubarComponent,
+    FormatSelectItemPipe
   ],
   imports: [
     BrowserModule,

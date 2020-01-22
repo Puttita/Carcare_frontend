@@ -34,7 +34,6 @@ export class EditDataEmployeeComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this.personalId = this.route.snapshot.paramMap.get('id');
-    console.log(this.route.snapshot.paramMap.get('id'));
     this.positionService.showPosition().subscribe(
       res => {
         this.role = res;
@@ -59,14 +58,14 @@ export class EditDataEmployeeComponent implements OnInit {
     this.manageUserService.getUser(this.personalId).subscribe(res => {
       console.log(res);
       const position = {
-        position_id: res.data['0']['position_id'],
-        position_role: res.data['0']['position_role']
+        position_id: res['data'][0]['position_id'],
+        position_role: res['data'][0]['position_role'],
+        position_work: res['data'][0]['position_work'],
       };
-      console.log(res.data['0']['position_id']);
+      console.log(res['data'][0]['position_work']);
 
-      this.formEdit.controls['role'].patchValue(position);
-      console.log( this.formEdit.controls['role'].patchValue({position}));
-
+      this.formEdit.controls['role'].patchValue(position.position_role);
+      console.log(this.formEdit.controls['role'].patchValue(position));
       this.formEdit.controls['fname'].setValue(res.data['0']['employee_fname']);
       this.formEdit.controls['lname'].setValue(res.data['0']['employee_lname']);
       this.formEdit.controls['tel'].setValue(res.data['0']['employee_tel'])

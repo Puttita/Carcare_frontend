@@ -21,30 +21,30 @@
               </ng-template>
               <ng-template pTemplate="header" let-columns>
                 <tr>
-                  <th pSortableColumn="nameAbbr">
+                  <th pSortableColumn="service_name">
                     บริการล้างรถ
-                    <p-sortIcon field="nameAbbr" ariaLabel="Activate to sort"
+                    <p-sortIcon field="service_name" ariaLabel="Activate to sort"
                       ariaLabelDesc="Activate to sort in descending order"
                       ariaLabelAsc="Activate to sort in ascending order">
                     </p-sortIcon>
                   </th>
-                  <th pSortableColumn="amount">
+                  <th pSortableColumn="service_price">
                     ราคา
-                    <p-sortIcon field="name" ariaLabel="Activate to sort"
+                    <p-sortIcon field="service_price" ariaLabel="Activate to sort"
                       ariaLabelDesc="Activate to sort in descending order"
                       ariaLabelAsc="Activate to sort in ascending order">
                     </p-sortIcon>
                   </th>
-                  <th pSortableColumn="amount">
+                  <th pSortableColumn="service_duration">
                     ระยะเวลาล้าง
-                    <p-sortIcon field="name" ariaLabel="Activate to sort"
+                    <p-sortIcon field="service_duration" ariaLabel="Activate to sort"
                       ariaLabelDesc="Activate to sort in descending order"
                       ariaLabelAsc="Activate to sort in ascending order">
                     </p-sortIcon>
                   </th>
-                  <th pSortableColumn="amount">
+                  <th pSortableColumn="size">
                     ขนาดรถ
-                    <p-sortIcon field="name" ariaLabel="Activate to sort"
+                    <p-sortIcon field="size" ariaLabel="Activate to sort"
                       ariaLabelDesc="Activate to sort in descending order"
                       ariaLabelAsc="Activate to sort in ascending order">
                     </p-sortIcon>
@@ -89,9 +89,9 @@
                   <td>
                     <div style="text-align:center">
                       <button pButton type="button" label="แก้ไข" class="ui-button-warning"
-                        (click)="showEdit(rowData['clean_service_id'])" style="width: 40%;"></button>
+                        (click)="showEdit(rowData['clean_service_detail_id'])" style="width: 40%;"></button>
                       <button pButton type="button" label="ลบ" class="ui-button-danger"
-                        (click)="delete(rowData['clean_service_id'])" style="width: 40%;margin-left: 5mm"></button>
+                        (click)="delete(rowData['clean_service_detail_id'])" style="width: 40%;margin-left: 5mm"></button>
                     </div>
                   </td>
                 </tr>
@@ -114,19 +114,25 @@
             <label for="service_name">บริการล้างรถ</label>
           </div>
           <div class="ui-g-8">
-            <input pInputText id="service_name" [(ngModel)]="name" formControlName="service_name" />
+            <!-- <p-autoComplete [(ngModel)]="name" [suggestions]="filteredService" value="clean_service_id" appendTo="body"
+              (completeMethod)="filterServiceMultiple($event)" placeholder="เลือกบริการล้างรถ" field="name"
+              [dropdown]="true" formControlName="service_name" readonly="true"> -->
+            <p-dropdown placeholder="กรุณาเลือกบริการล้างรถ" [options]="nameService" optionLabel="service_name"
+              value="clean_service_id" formControlName="service_name" [style]="{ width: '60%' }" [(ngModel)]="name">
+            </p-dropdown>
             <div
               *ngIf="form.controls['service_name'].invalid && (form.controls['service_name'].dirty || form.controls['service_name'].touched)"
               class="alert alert-danger">
               <div class="text-danger text-invalid" *ngIf="form.controls['service_name'].errors.required">
                 กรุณากรอกบริการล้างรถ</div>
             </div>
+            <!-- </p-autoComplete> -->
           </div>
           <div class="ui-g-4">
             <label for="service_price">ราคา</label>
           </div>
           <div class="ui-g-8">
-            <input pInputText id="service_price" [(ngModel)]="price" formControlName="service_price" />
+            <input pInputText id="service_price" pKeyFilter="int" [(ngModel)]="price" formControlName="service_price" />
             <div
               *ngIf="form.controls['service_price'].invalid && (form.controls['service_price'].dirty || form.controls['service_price'].touched)"
               class="alert alert-danger">

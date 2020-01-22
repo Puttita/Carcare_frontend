@@ -52,10 +52,12 @@ export class ManagePositionService {
       .pipe(
         map((res: any[]) => {
           return res['data'].map(data => {
+            console.log(res['data']);
             return {
               position_id: data['position_id'],
               position_role: data['position_role'],
-              position_work: data['position_work']
+              position_work: data['position_work'],
+              role: data['position_role'] + ' ' + data['position_work']
             };
           });
         })

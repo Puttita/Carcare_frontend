@@ -44,6 +44,10 @@ export class MenubarComponent implements OnInit {
       { label: 'จัดการอุปการณ์ล้างรถ', icon: 'pi pi-fw pi-shopping-cart', routerLink: '/manageTool' },
       { label: 'จัดการโปรโมชั่น', icon: 'pi pi-fw pi-shopping-cart', routerLink: '/managePromotion' },
       { label: 'จัดการการจองคิว', icon: 'pi pi-fw pi-users', routerLink: '/manageBooking' },
+      { label: 'เบิกคืนอุปกรณ์ล้างรถ', icon: 'pi pi-fw pi-users', routerLink: '/withdraw' },
+      { label: 'จัดการเบิกคืนอุปกรณ์ล้างรถ', icon: 'pi pi-fw pi-users', routerLink: '/manageWithdraw' },
+      { label: 'ตารางคิว', icon: 'pi pi-fw pi-users', routerLink: '/schedule' },
+      { label: 'จัดการพนักงานล้างรถ', icon: 'pi pi-fw pi-users', routerLink: '/manageChannel' },
     ];
     this.items3 = [
       { label: 'จัดการการจองคิว', icon: 'pi pi-fw pi-users', routerLink: '/manageBooking' },

@@ -20,12 +20,14 @@ export class ManageTypecarComponent implements OnInit {
   public form: FormGroup;
   public displayDialog: boolean;
   public size: TypeCar;
-  public brand: string;
+  public brand: Car;
   public model: string;
   Cartype: SelectItem[];
   public type: any[];
+  public getbrand: any[];
   typeId: TypeCar;
   public filteredTypeCar: any[];
+  public filteredBrand: any[];
   constructor(
     private manageCar: ManageCarcareService,
     private formBuilder: FormBuilder,
@@ -40,6 +42,7 @@ export class ManageTypecarComponent implements OnInit {
     ];
     this.getAllCar();
     this.createForm();
+    this.getBrand();
     this.manageCar.showTypeCar().subscribe(
       res => {
         console.log(res);
@@ -62,6 +65,16 @@ export class ManageTypecarComponent implements OnInit {
       (e) => console.log(e['error']['message'])
     );
   }
+  getBrand() {
+    this.manageCar.getBrand().subscribe(res => {
+      if (res['status'] === 'Success') {
+        this.getbrand = res['data'];
+        console.log(res.data);
+      }
+    },
+      (e) => console.log(e['error']['message'])
+    );
+  }
   createForm() {
     this.form = this.formBuilder.group(
       {
@@ -78,10 +91,13 @@ export class ManageTypecarComponent implements OnInit {
   }
   showEdit(id) {
     console.log(id);
-    console.log(this.typecar)
     this.newtypeCar = false;
-    this.typecar = this.car.filter(e => e.car_id === id)[0];
-    this.brand = this.typecar['brand'];
+    this.typecar = this.car.filter(e => e.car_detail_id === id)[0];
+    console.log(this.typecar)
+    this.brand = {
+      car_id: +this.typecar['car_id'],
+      brand: this.typecar['brand']
+    }
     this.model = this.typecar['model'];
     this.size = {
       type_car_id: +this.typecar['type_car_id'],
@@ -95,9 +111,10 @@ export class ManageTypecarComponent implements OnInit {
   save() {
     this.msgs = [];
     const data = {
-      brand: this.brand,
+      car_id: this.brand['car_id'],
+      brand: this.brand['brand'],
       model: this.model,
-      type_car_id: this.size['type_car_id']
+      type_car_id: this.size['type_car_id'],
     };
     console.log(data);
     this.manageCar.createCar(data)
@@ -122,16 +139,19 @@ export class ManageTypecarComponent implements OnInit {
       header: 'ข้อความจากระบบ',
       accept: () => {
         const data = {
-          car_id: this.typecar['car_id'],
-          brand: this.brand,
+          car_detail_id: this.typecar['car_detail_id'],
+          car_id: this.brand['car_id'],
+          brand: this.brand['brand'],
           model: this.model,
-          type_car_id: this.size['type_car_id']
+          type_car_id: this.size['type_car_id'],
         };
+        console.log(data);
+
         this.manageCar.updateCar(data)
           .subscribe(res => {
             if (res['status'] === 'Success') {
               this.msgs.push({ severity: 'success', summary: 'ข้อความจากระบบ', detail: 'การดำเนินการสำเร็จ' });
-              const index = this.car.findIndex(e => e.type_car_id === res['data']['type_car_id']);
+              const index = this.car.findIndex(e => e.car_detail_id === res['data']['car_detail_id']);
               // this.car[index].brand = res['data']['brand'];
             }
           },
@@ -154,7 +174,7 @@ export class ManageTypecarComponent implements OnInit {
       message: 'ยืนยันการลบ',
       header: 'ข้อความจากระบบ',
       accept: () => {
-        const index = this.car.findIndex(e => e.car_id === id);
+        const index = this.car.findIndex(e => e.car_detail_id === id);
         console.log(index);
         console.log(id);
 
@@ -181,7 +201,7 @@ export class ManageTypecarComponent implements OnInit {
   }
   clear() {
     this.typecar = {};
-    this.brand = '';
+    this.brand = {};
     this.model = '';
     // this.size = '';
     this.displayDialog = false;
@@ -190,7 +210,6 @@ export class ManageTypecarComponent implements OnInit {
 
   filterTypecarMultiple(event) {
     const query = event.query;
-    console.log(query);
     this.filteredTypeCar = this.filterTypecar(query, this.type);
   }
   filterTypecar(query, type: any[]): any[] {
@@ -198,6 +217,20 @@ export class ManageTypecarComponent implements OnInit {
     for (let i = 0; i < type.length; i++) {
       const types = type[i];
       if ((types.size).indexOf(query) === 0) {
+        filtered.push(types);
+      }
+    }
+    return filtered;
+  }
+  filterBrandMultiple(event) {
+    const query = event.query;
+    this.filteredBrand = this.filterBrand(query, this.getbrand);
+  }
+  filterBrand(query, type: any[]): any[] {
+    const filtered: any[] = [];
+    for (let i = 0; i < type.length; i++) {
+      const types = type[i];
+      if ((types.brand).indexOf(query) === 0) {
         filtered.push(types);
       }
     }

@@ -9,7 +9,7 @@
       <div class="row">
         <div class="ui-g">
           <div class="ui-g-12 ui-lg-12">
-            <p-table #dt  [paginator]="true" [value]="book" [rows]="10" [responsive]="true" selectionMode="single"
+            <p-table #dt [paginator]="true" [value]="book" [rows]="10" [responsive]="true" selectionMode="single"
               (onRowSelect)="onRowSelect($event)">
               <ng-template pTemplate="caption">
                 <div style="text-align:left">
@@ -62,15 +62,15 @@
                       ariaLabelAsc="Activate to sort in ascending order">
                     </p-sortIcon>
                   </th>
-                  <th pSortableColumn="duration">
-                    ระยะเวลาบริการ
-                    <p-sortIcon field="duration" ariaLabel="Activate to sort"
+                  <th pSortableColumn="price">
+                    สถานะ
+                    <p-sortIcon field="price" ariaLabel="Activate to sort"
                       ariaLabelDesc="Activate to sort in descending order"
                       ariaLabelAsc="Activate to sort in ascending order">
                     </p-sortIcon>
                   </th>
-                  <!-- <th>
-                  </th> -->
+                  <th>
+                  </th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-rowData let-columns="columns">
@@ -94,7 +94,7 @@
                     {{rowData.total_price}} บาท
                   </td>
                   <td [pSelectableRow]="rowData" style="text-align: center">
-                    -
+                    {{rowData.reserv_status}}
                   </td>
                   <td *ngFor="let col of columns;">
                     <div *ngIf="rowData[col.field] != rowData['status']">
@@ -117,20 +117,16 @@
                       <div *ngIf="rowData[col.field] == rowData['total_price']">
                         {{rowData.total_price }}
                       </div>
-                      <div *ngIf="rowData[col.field] == rowData['total_price']">
-                        -
+                      <div *ngIf="rowData[col.field] == rowData['reserv_status']">
+                        {{rowData.reserv_status}}
                       </div>
                     </div>
-
                   </td>
-                  <!-- <td>
+                  <td>
                     <div style="text-align:center">
-                      <button pButton type="button" label="ตรวจสอบ" class="ui-button-info" style="width: 80%;"
-                        (onRowSelect)="onRowSelect($event)"></button>
-                      <button pButton type="button" label="ลบ" class="ui-button-danger"
-                        style="width: 40%;margin-left: 5mm"></button>
+                      <button pButton type="button" label="ยืนยันคิว" class="ui-button-info"></button>
                     </div>
-                  </td> -->
+                  </td>
                 </tr>
               </ng-template>
             </p-table>

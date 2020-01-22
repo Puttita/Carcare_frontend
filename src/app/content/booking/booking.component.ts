@@ -42,6 +42,13 @@ export class BookingComponent implements OnInit {
     this.booking.getBooking().subscribe(res => {
       if (res['status'] === 'Success') {
         this.book = res.data;
+        let status = res['data'][0]['reserv_status']
+        console.log(status);
+        if (status === 0) {
+          let data = 'รอการยืนยัน';
+          res['data'][0]['reserv_status'] = data;
+          console.log(status);
+        }
       }
     },
       (e) => console.log(e['error']['message'])
@@ -50,7 +57,7 @@ export class BookingComponent implements OnInit {
   public onRowSelect(e) {
     const book: Booking = e.data;
     console.log(e.data);
-    this.router.navigate(['/manageBooking/detail',book.reserv_id]);
+    this.router.navigate(['/manageBooking/detail', book.reserv_id]);
   }
 
 

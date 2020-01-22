@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiConstants } from '../constants/ApiConstants';
 import { map } from 'rxjs/operators';
-import { formatDate } from '@angular/common';
+import { formatDate, JsonPipe } from '@angular/common';
 import { HttpClientService } from './http-client.service';
 
 @Injectable({
@@ -39,8 +39,8 @@ export class ManageCarcareService {
       })
     );
   }
-  getCarId(id) {
-    return this.http.get(ApiConstants.baseURl + `/car/getBrand/${id}`, {
+  getBrand() {
+    return this.http.get(ApiConstants.baseURl + `/car/getBrand`, {
       headers: {
         Authorization: `${localStorage.getItem('access-token')}`
       }
@@ -53,6 +53,21 @@ export class ManageCarcareService {
       })
     );
   }
+
+  getModel(data) {
+    console.log(data);
+    return this.http.post(ApiConstants.baseURl + '/car/getModel', data)
+      .pipe(
+        map(res => {
+          console.log(res['data'][0]);
+          return {
+            status: res['result'],
+            data: res['data'][0]
+          };
+        })
+      );
+  }
+
   createCar(data) {
     return this.http.post(ApiConstants.baseURl + '/car', data)
       .pipe(
@@ -144,6 +159,31 @@ export class ManageCarcareService {
   }
   getService() {
     return this.http.get(ApiConstants.baseURl + '/manageCleanservice', {
+      headers: {
+        Authorization: `${localStorage.getItem('access-token')}`
+      }
+    }).pipe(
+      map(res => {
+        return {
+          status: res['result'],
+          data: res['data'][0]
+        };
+      })
+    );
+  }
+  getServiceName(){
+    return this.http.get(ApiConstants.baseURl + '/manageCleanservice/getService')
+    .pipe(
+      map(res => {
+        return {
+          status: res['result'],
+          data: res['data']
+        };
+      })
+    );
+  }
+  getServiceById(id) {
+    return this.http.get(ApiConstants.baseURl + `/manageCleanservice/${id}`, {
       headers: {
         Authorization: `${localStorage.getItem('access-token')}`
       }

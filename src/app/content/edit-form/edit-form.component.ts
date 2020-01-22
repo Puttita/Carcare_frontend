@@ -40,7 +40,6 @@ export class EditFormComponent implements OnInit {
       res => {
         this.role = res;
         console.log(res);
-
       },
       err => {
         console.log(err['error']['message']);

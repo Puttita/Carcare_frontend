@@ -15,6 +15,10 @@ import { AuthGuard } from '../shared/guard/auth.guard';
 import { ManageTypecarComponent } from './manage-typecar/manage-typecar.component';
 import { ManageCarserviceComponent } from './manage-carservice/manage-carservice.component';
 import { BookingDetailComponent } from './booking-detail/booking-detail.component';
+import { WithdrawReturnComponent } from './withdraw-return/withdraw-return.component';
+import { ManageWithdrawReturnComponent } from './manage-withdraw-return/manage-withdraw-return.component';
+import { ScheduleComponent } from './schedule/schedule.component';
+import { ManageChannelComponent } from './manage-channel/manage-channel.component';
 
 
 const routes: Routes = [
@@ -88,6 +92,9 @@ const routes: Routes = [
           {
             path: 'create',
             component: BookingFormComponent,
+            data: {
+              urlback: '/manageBooking',
+            }
           },
           {
             path: 'detail/:id',
@@ -95,6 +102,22 @@ const routes: Routes = [
           }
         ]
       },
+      {
+        path: 'withdraw',
+        component: WithdrawReturnComponent,
+      },
+      {
+        path: 'manageWithdraw',
+        component: ManageWithdrawReturnComponent,
+      },
+      {
+        path: 'schedule',
+        component: ScheduleComponent,
+      },
+      {
+        path: 'manageChannel',
+        component: ManageChannelComponent
+      }
 
     ]
   }

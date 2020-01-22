@@ -37,5 +37,13 @@ export class BookingService {
       })
       ));
   }
+  checkBookingDate(date) {
+    return this.http.get(ApiConstants.baseURl + `/booking/checkbooking`, date).pipe(
+      map(res => ({
+        status: res['result'],
+        data: res['data'][0]
+      })
+      ));
+  }
 
 }

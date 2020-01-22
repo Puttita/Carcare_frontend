@@ -38,6 +38,14 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CheckboxModule } from 'primeng/checkbox';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { BookingFormComponent } from './booking-form/booking-form.component';
+import { WithdrawReturnComponent } from './withdraw-return/withdraw-return.component';
+import { ManageWithdrawReturnComponent } from './manage-withdraw-return/manage-withdraw-return.component';
+import { OrderListModule } from 'primeng/orderlist';
+import { ListboxModule } from 'primeng/listbox';
+import { ManageChannelComponent } from './manage-channel/manage-channel.component';
+import { TooltipModule } from 'primeng/tooltip';
+import { KeyFilterModule } from 'primeng/keyfilter';
+
 @NgModule({
   declarations: [
     ContentComponent,
@@ -54,7 +62,11 @@ import { BookingFormComponent } from './booking-form/booking-form.component';
     ScheduleComponent,
     EditFormComponent,
     EditDataEmployeeComponent,
-    BookingFormComponent
+    BookingFormComponent,
+    WithdrawReturnComponent,
+    ManageWithdrawReturnComponent,
+    ManageChannelComponent,
+
   ],
   imports: [
     CommonModule,
@@ -77,7 +89,11 @@ import { BookingFormComponent } from './booking-form/booking-form.component';
     ToastModule,
     AutoCompleteModule,
     CheckboxModule,
-    MultiSelectModule
+    MultiSelectModule,
+    OrderListModule,
+    ListboxModule,
+    TooltipModule,
+    KeyFilterModule
   ],
   providers: [AuthService, AuthGuard, HttpClientService, ConfirmationService],
 })

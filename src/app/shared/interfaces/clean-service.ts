@@ -5,4 +5,5 @@ export interface CleanService {
   service_duration?: Date;
   type_car_id?: number;
   size?: string;
+  clean_service_detail_id?: number;
 }

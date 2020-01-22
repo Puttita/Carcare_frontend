@@ -17,19 +17,18 @@ export class ManageUserService {
   ) { }
 
   getUser(id) {
-    console.log(id);
     return this.http.get(ApiConstants.baseURl + `/manageEmployee/edit/${id}`, {
       headers: {
         Authorization: `${localStorage.getItem('access-token')}`
       }
     }).pipe(
-
       map((res) => {
         console.log(res['data'][0]);
         return {
           status: res['result'],
           data: res['data'][0]
         };
+
       })
     );
   }

@@ -1,3 +1,4 @@
+import { Car } from 'src/app/shared/interfaces/car';
 import { Component, OnInit } from '@angular/core';
 import { ManageCarcareService } from 'src/app/shared/services/manage-carcare.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -5,6 +6,7 @@ import { MenuItem, Message, ConfirmationService } from 'primeng/api';
 import { CleanService } from 'src/app/shared/interfaces/clean-service';
 import { Time, formatDate } from '@angular/common';
 import { TypeCar } from 'src/app/shared/interfaces/type-car';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-manage-carservice',
@@ -16,14 +18,17 @@ export class ManageCarserviceComponent implements OnInit {
   public clean: any[];
   public form: FormGroup;
   public type: any[];
+  public ser: any[];
   public filteredTypeCar: any[];
+  public filteredService: any[];
   public newService: boolean;
   public displayDialog: boolean;
   service: CleanService;
   services: CleanService[];
   public msgs: Message[] = [];
+  public nameService: any[];
   // NgModel
-  public name: string;
+  public name: CleanService;
   public price: number;
   public duration: Date;
   public size: TypeCar;
@@ -42,11 +47,12 @@ export class ManageCarserviceComponent implements OnInit {
     ];
     this.getAllService();
     this.createForm();
+    this.getService();
     this.manageCar.showTypeCar().subscribe(
       res => {
-        console.log(res);
         if (res.status === 'Success') {
           this.type = res.data;
+          console.log(res);
         }
       },
       err => {
@@ -69,6 +75,17 @@ export class ManageCarserviceComponent implements OnInit {
       }
     );
   }
+  getService() {
+    this.manageCar.getServiceName().subscribe(res => {
+      if (res.status === 'Success') {
+        this.nameService = res.data;
+        console.log(res.data);
+
+      }
+    },
+      (e) => console.log(e['error']['message'])
+    );
+  }
   getAllService() {
     this.manageCar.getService().subscribe(res => {
       if (res['status'] === 'Success') {
@@ -81,11 +98,10 @@ export class ManageCarserviceComponent implements OnInit {
 
   save() {
     this.msgs = [];
-    const time = formatDate(this.duration, 'h:mm:ss', 'en')
     const data = {
-      service_name: this.name,
+      clean_service_id: this.name['clean_service_id'],
       service_price: this.price,
-      service_duration: time,
+      service_duration: moment(this.duration, 'HH:mm:ss').format('HH:mm:ss'),
       type_car_id: this.size['type_car_id']
     };
     console.log(data);
@@ -106,16 +122,18 @@ export class ManageCarserviceComponent implements OnInit {
   showEdit(id) {
     console.log(id);
     this.newService = false;
-    // const time = formatDate(this.duration, 'h:mm:ss', 'en')
-    this.service = this.clean.filter(e => e.clean_service_id === id)[0];
-    this.name = this.service['service_name'];
+    this.service = this.clean.filter(e => e.clean_service_detail_id === id)[0];
     this.price = this.service['service_price'];
     this.duration = this.service['service_duration']
+    this.name = {
+      clean_service_id: this.service['clean_service_id'],
+      service_name: this.service['service_name'],
+    }
     this.size = {
       type_car_id: this.service['type_car_id'],
       size: this.service['size']
     };
-    console.log(this.size);
+    console.log(this.name);
     console.log(this.service)
     this.displayDialog = true;
   }
@@ -125,12 +143,11 @@ export class ManageCarserviceComponent implements OnInit {
       message: 'ยืนยันการแก้ไข',
       header: 'ข้อความจากระบบ',
       accept: () => {
-        const time = formatDate(this.duration, 'h:mm:ss', 'en')
         const data = {
+          clean_service_detail_id: this.name['clean_service_detail_id'],
           clean_service_id: this.service['clean_service_id'],
-          service_name: this.name,
           service_price: this.price,
-          service_duration: time,
+          service_duration: moment(this.duration, 'HH:mm:ss').format('HH:mm:ss'),
           type_car_id: this.size['type_car_id']
         };
         console.log(data);
@@ -138,7 +155,7 @@ export class ManageCarserviceComponent implements OnInit {
           .subscribe(res => {
             if (res['status'] === 'Success') {
               this.msgs.push({ severity: 'success', summary: 'ข้อความจากระบบ', detail: 'การดำเนินการสำเร็จ' });
-              const index = this.clean.findIndex(e => e.clean_service_id === res['data']['clean_service_id']);
+              const index = this.clean.findIndex(e => e.clean_service_detail_id === res['data']['clean_service_detail_id']);
               // this.car[index].brand = res['data']['brand'];
             }
           },
@@ -160,7 +177,7 @@ export class ManageCarserviceComponent implements OnInit {
       message: 'ยืนยันการลบ',
       header: 'ข้อความจากระบบ',
       accept: () => {
-        const index = this.clean.findIndex(e => e.clean_service_id === id);
+        const index = this.clean.findIndex(e => e.clean_service_detail_id === id);
         console.log(index);
         console.log(id);
 
@@ -187,7 +204,7 @@ export class ManageCarserviceComponent implements OnInit {
   }
   clear() {
     this.service = {};
-    this.name = '';
+    this.name = {};
     this.price = null;
     this.duration = null;
     // this.size = '';
@@ -209,5 +226,4 @@ export class ManageCarserviceComponent implements OnInit {
     }
     return filtered;
   }
-
 }

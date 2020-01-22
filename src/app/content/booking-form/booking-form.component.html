@@ -10,7 +10,10 @@
         <p-card>
           <div class="ui-g-12">
             <div class="ui-g-3">วันที่จอง : </div>
-            <p-calendar [showIcon]="true" formControlName="reserv_date" appendTo="body"></p-calendar>
+            <p-calendar [showIcon]="true" class="ui-datepicker-today" [(ngModel)]="bookingDate" showButtonBar="true"
+              formControlName="reserv_date" appendTo="body">
+            </p-calendar>
+            <!-- <input type="date" formControlName="reserv_date" class="form-control" /> -->
             <div
               *ngIf="form.controls['reserv_date'].invalid && (form.controls['reserv_date'].dirty || form.controls['reserv_date'].touched)"
               class="alert alert-danger">
@@ -28,6 +31,11 @@
                 กรุณาระบุเวลาที่จอง</div>
             </div>
           </div>
+          <button pButton type="button" label="ตรวจสอบ"
+            class="ui-button-raised ui-button-warning ui-align-center"></button>
+        </p-card>
+        <br>
+        <p-card>
           <div class="ui-g-12">
             <div class="ui-g-3">ชื่อ-นามสกุล : </div>
             <span class="ui-float-label">
@@ -55,19 +63,9 @@
             </span>
           </div>
           <div class="ui-g-12">
-            <div class="ui-g-3">ขนาดรถ : </div>
-            <p-dropdown [options]="type" optionLabel="size" value="type_car_id" placeholder="เลือกขนาดรถ"
-              formControlName="size" appendTo="body" (onChange)="getBrandCar($event)"></p-dropdown>
-            <div *ngIf="form.controls['size'].invalid && (form.controls['size'].dirty || form.controls['size'].touched)"
-              class="alert alert-danger">
-              <div class="text-danger text-invalid" *ngIf="form.controls['size'].errors.required">
-                กรุณาระบุขนาดรถ</div>
-            </div>
-          </div>
-          <div class="ui-g-12">
             <div class="ui-g-3">ยี่ห้อ : </div>
-            <p-dropdown [options]="car" optionLabel="brand" value="car_id" placeholder="เลือกขนาดยี่ห้อ"
-              formControlName="brand" appendTo="body"></p-dropdown>
+            <p-dropdown [options]="car" optionLabel="brand" value="car_id" placeholder="เลือกยี่ห้อ"
+              formControlName="brand" appendTo="body" (onChange)="getModelCar($event)"></p-dropdown>
             <div
               *ngIf="form.controls['brand'].invalid && (form.controls['brand'].dirty || form.controls['brand'].touched)"
               class="alert alert-danger">
@@ -77,9 +75,8 @@
           </div>
           <div class="ui-g-12">
             <div class="ui-g-3">รุ่นรถ : </div>
-            <p-autoComplete appendTo="body" placeholder="เลือกรุ่นรถ" [dropdown]="true" readonly="true">
-
-            </p-autoComplete>
+            <p-dropdown [options]="car" optionLabel="model" value="car_id" placeholder="เลือกรุ่นรถ"
+              formControlName="model" appendTo="body"></p-dropdown>
             <div
               *ngIf="form.controls['model'].invalid && (form.controls['model'].dirty || form.controls['model'].touched)"
               class="alert alert-danger">
@@ -88,8 +85,23 @@
             </div>
           </div>
           <div class="ui-g-12">
-            <div class="ui-g-3">ประเภทบริการ : </div>
-            <p-multiSelect optionLabel="name" formControlName="service"></p-multiSelect>
+            <div class="ui-g-3">ขนาดรถ : </div>
+            <p-dropdown [options]="type" optionLabel="size" value="type_car_id" placeholder="เลือกขนาดรถ"
+              formControlName="size" appendTo="body"></p-dropdown>
+            <div *ngIf="form.controls['size'].invalid && (form.controls['size'].dirty || form.controls['size'].touched)"
+              class="alert alert-danger">
+              <div class="text-danger text-invalid" *ngIf="form.controls['size'].errors.required">
+                กรุณาระบุขนาดรถ</div>
+            </div>
+          </div>
+          <div class="ui-g-12">
+            <p-listbox [options]="clean" [(ngModel)]="selectCar" (click)="showCar($event)" formControlName="service"
+              multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="data"
+              [style]="{'width':'100%','max-height':'auto'}">
+              <p-header>
+                ประเภทบริการ
+              </p-header>
+            </p-listbox>
             <div
               *ngIf="form.controls['service'].invalid && (form.controls['service'].dirty || form.controls['service'].touched)"
               class="alert alert-danger">
@@ -101,17 +113,23 @@
           <div class="ui-g-12">
             <div class="ui-g-3">ราคารวม : </div>
             <span class="ui-float-label">
-              <input id="float-input" type="text" size="30" pInputText readonly formControlName="total">
+              <input id="float-input" type="text" [(ngModel)]="sum_price" size="30" pInputText readonly
+                formControlName="total"> บาท
             </span>
           </div>
           <div class="ui-g-12">
             <div class="ui-g-3">ระยะเวลาทั้งหมด : </div>
             <span class="ui-float-label">
-              <input id="float-input" type="text" size="30" pInputText readonly formControlName="duration">
+              <input id="float-input" type="text" size="30" [(ngModel)]="sum_time" pInputText readonly
+                formControlName="duration">
             </span>
           </div>
-          <button pButton type="submit" label="ยืนยัน" class="ui-button-raised ui-button-success"></button>
-          <button pButton type="button" label="ยกเลิก" class="ui-button-raised ui-button-danger"></button>
+          <div style="text-align: center;">
+            <button pButton type="submit" label="ยืนยัน" (click)="save()"
+              class="ui-button-raised ui-button-success"></button>
+            <button pButton type="button" label="ยกเลิก" (click)="cancel()"
+              class="ui-button-raised ui-button-danger"></button>
+          </div>
         </p-card>
       </div>
     </div>
