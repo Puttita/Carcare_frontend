@@ -5,8 +5,7 @@
         <h1>จองคิวล้างรถ</h1>
       </div>
       <div class="container" style="width: 50%;">
-        <div class="line"></div>
-        <br>
+
         <p-card>
           <div class="ui-g-12">
             <div class="ui-g-3">วันที่จอง : </div>
@@ -20,6 +19,7 @@
               <div class="text-danger text-invalid" *ngIf="form.controls['reserv_date'].errors.required">
                 กรุณาระบุวันที่จอง</div>
             </div>
+            <div class="line"></div>
           </div>
           <div class="ui-g-12">
             <div class="ui-g-3">เวลาที่จอง : </div>
@@ -32,11 +32,6 @@
                 กรุณาระบุเวลาที่จอง</div>
             </div>
           </div>
-          <button pButton type="button" label="ตรวจสอบ"
-            class="ui-button-raised ui-button-warning ui-align-center"></button>
-        </p-card>
-        <br>
-        <p-card>
           <div class="ui-g-12">
             <div class="ui-g-3">ชื่อ-นามสกุล : </div>
             <span class="ui-float-label">
