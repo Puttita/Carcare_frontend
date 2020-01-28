@@ -18,11 +18,16 @@ export class AuthService {
   }
 
   getRole(): BehaviorSubject<string> {
+    console.log(this.role);
     return this.role;
+
+
   }
 
   setRole(role: string) {
     this.role.next(role);
+    console.log(role);
+
   }
 
   login(username, password) {

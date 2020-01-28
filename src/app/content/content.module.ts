@@ -93,7 +93,8 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     OrderListModule,
     ListboxModule,
     TooltipModule,
-    KeyFilterModule
+    KeyFilterModule,
+    ToastModule
   ],
   providers: [AuthService, AuthGuard, HttpClientService, ConfirmationService],
 })

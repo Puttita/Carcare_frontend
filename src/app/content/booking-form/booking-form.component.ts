@@ -1,3 +1,4 @@
+import { BookingService } from 'src/app/shared/services/booking.service';
 import { CleanService } from 'src/app/shared/interfaces/clean-service';
 import { Car } from 'src/app/shared/interfaces/car';
 import { TypeCar } from 'src/app/shared/interfaces/type-car';
@@ -7,7 +8,7 @@ import { Component, OnInit, Pipe } from '@angular/core';
 import { ManageCarcareService } from 'src/app/shared/services/manage-carcare.service';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
-
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-booking-form',
   templateUrl: './booking-form.component.html',
@@ -17,29 +18,28 @@ import { Router } from '@angular/router';
 export class BookingFormComponent implements OnInit {
   public form: FormGroup;
   public booking: Booking[];
-  public type: TypeCar[];
+  public type: Car[];
   public car: Car[];
   public model: Car[];
-  public detail: boolean;
   public clean: CleanService[];
   public selectCar: any[];
   public sum_price: number;
   public sum_time: string;
   public bookingDate: string;
+  public bookingTime: string;
   public urlback: string;
   Date: Date;
   constructor(
     private formBuilder: FormBuilder,
     private manageCar: ManageCarcareService,
     private router: Router,
+    private manageBooking: BookingService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit() {
-    this.getSizeCar();
     this.createForm();
     this.getBrandCar();
-    this.getAllService();
-
   }
   createForm() {
     this.form = this.formBuilder.group(
@@ -52,33 +52,11 @@ export class BookingFormComponent implements OnInit {
         brand: ['', Validators.required],
         model: ['', Validators.required],
         service: ['', Validators.required],
-        total: [''],
-        duration: ['']
+        total_price: [''],
+        duration: [''],
+        end_date: ['']
       }
     );
-  }
-
-  getSizeCar() {
-    this.manageCar.showTypeCar().subscribe(
-      res => {
-        console.log(res);
-        if (res.status === 'Success') {
-          this.type = res.data.map(res => {
-            return {
-              type_car_id: res.type_car_id,
-              size: res.size
-
-            };
-          });
-        }
-      },
-      err => {
-        console.log(err.error['message']);
-      }
-    );
-  }
-  checkDate() {
-    this.detail = false;
   }
 
   getBrandCar() {
@@ -86,7 +64,6 @@ export class BookingFormComponent implements OnInit {
       res => {
         if (res.status === 'Success') {
           this.car = res.data.map(res => {
-            console.log(res);
             return {
               car_id: res.car_id,
               brand: res.brand,
@@ -101,14 +78,15 @@ export class BookingFormComponent implements OnInit {
   }
   getModelCar(data) {
     console.log(data);
-    this.manageCar.getModel(data.value.brand).subscribe(
+    this.manageCar.getModel(data['value']['car_id']).subscribe(
       res => {
         if (res.status === 'Success') {
-          this.car = res.data.map(res => {
-            console.log(res.data);
+          this.model = res.data.map(res => {
             return {
-              car_id: res.car_id,
+              car_detail_id: res.car_detail_id,
               model: res.model,
+              type_car_id: res.type_car_id,
+              size: res.size
             };
           });
         }
@@ -118,14 +96,30 @@ export class BookingFormComponent implements OnInit {
       }
     );
   }
+  getModelById(id) {
+    console.log(id);
+    this.manageCar.getSizeById(id.value.car_detail_id).subscribe(
+      res => {
+        if (res.status === 'Success') {
+          this.type = res.data.map(res => {
+            return {
+              type_car_id: res.type_car_id,
+              size: res.size
+            };
+          });
+        }
+      },
+      err => {
+        console.log(err.error['message']);
+      }
+    );
 
-  getAllService() {
-    this.manageCar.getService().subscribe(res => {
+    this.manageCar.getServiceId(id.value.type_car_id).subscribe(res => {
       if (res.status === 'Success') {
         this.clean = res.data.map(res => {
-          console.log(res.service_price);
+          console.log(res.data);
           return {
-            clean_service_id: res.clean_service_id,
+            clean_service_detail_id: res.clean_service_detail_id,
             service_name: res.service_name,
             service_price: res.service_price,
             service_duration: res.service_duration,
@@ -153,24 +147,61 @@ export class BookingFormComponent implements OnInit {
     this.sum_time = sum.service_duration;
   }
   save() {
-    console.log(this.bookingDate);
-
-    const start_time = this.form.get('reserv_date').value;
-    const end_time = this.form.get('duration').value;
-    let s = moment.duration(end_time).asSeconds();
-    const time = moment(start_time, 'HH:mm:ss').add(this.sum_time, 'seconds').format('HH:mm:ss');
+    // วันที่จอง
+    const start = moment(this.bookingDate, 'DD-MM-YYYY').format('DD-MM-YYYY');
+    let date = this.form.get('reserv_date').value;;
+    date = start;
+    console.log(date);
+    // เวลาที่จอง
+    const t = moment(this.bookingTime, 'HH:mm:ss').format('HH:mm:ss');
+    let time = this.form.get('reserv_time').value;
+    time = t;
     console.log(time);
+    // เวลาที่เสร็จ
+    let s = moment.duration(this.sum_time).asSeconds();
+    let end_time = moment(time, 'HH:mm:ss').add(s, 'seconds').format('HH:mm:ss');
+    let duration = this.form.get('end_date').value;
+    duration = end_time;
+    console.log(duration);
+
+    const total = this.sum_price;
+    let price = this.form.get('total_price').value;
+    price = total;
 
     const booking = {
-      reserv_date: this.form.get('reserv_date').value,
-      reserv_time: this.form.get('start_date').value,
+      reserv_date: date,
+      reserv_time: time,
       name: this.form.get('customer_name').value,
       license: this.form.get('license').value,
-      total: this.form.get('total_price').value,
-      duration: this.form.get('end_date').value
-    }
+      total_price: price,
+      duration: duration,
+      size: this.form.get('size').value,
+      brand: this.form.get('brand').value,
+      model: this.form.get('model').value,
+      service: this.form.get('service').value,
+    };
+    console.log(booking);
+
+    this.manageBooking.booking(booking).subscribe(
+      res => {
+        if (res['status'] === 'Success') {
+          this.showSuccess();
+        } else {
+          this.showError();
+        }
+      }
+    )
+
   }
   cancel() {
     this.router.navigateByUrl('/manageBooking');
   }
+  showSuccess() {
+    this.messageService.add({ severity: 'success', summary: 'Success Message', detail: 'จองสำเร็จ' });
+  }
+
+  showError() {
+    this.messageService.add({ severity: 'error', summary: 'Error Message', detail: 'จองไม่สำเร็จ' });
+  }
+
 }

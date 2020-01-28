@@ -45,5 +45,15 @@ export class BookingService {
       })
       ));
   }
-
+  booking(data) {
+    return this.http.post(ApiConstants.baseURl + '/booking', data)
+      .pipe(
+        map(res => {
+          return {
+            status: res['result'],
+            data: res['data'][0]
+          };
+        })
+      );
+  }
 }

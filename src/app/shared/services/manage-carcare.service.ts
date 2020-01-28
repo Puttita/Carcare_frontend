@@ -54,18 +54,26 @@ export class ManageCarcareService {
     );
   }
 
-  getModel(data) {
-    console.log(data);
-    return this.http.post(ApiConstants.baseURl + '/car/getModel', data)
-      .pipe(
-        map(res => {
-          console.log(res['data'][0]);
-          return {
-            status: res['result'],
-            data: res['data'][0]
-          };
-        })
-      );
+  getModel(id) {
+    console.log(id);
+    return this.http.get(ApiConstants.baseURl + `/car/getModel/${id}`).pipe(
+      map(res => {
+        return {
+          status: res['result'],
+          data: res['data']
+        };
+      })
+    );
+  }
+  getSizeById(id) {
+    return this.http.get(ApiConstants.baseURl + `/car/getSize/${id}`).pipe(
+      map(res => {
+        return {
+          status: res['result'],
+          data: res['data']
+        };
+      })
+    )
   }
 
   createCar(data) {
@@ -171,19 +179,35 @@ export class ManageCarcareService {
       })
     );
   }
-  getServiceName(){
+  getServiceName() {
     return this.http.get(ApiConstants.baseURl + '/manageCleanservice/getService')
-    .pipe(
+      .pipe(
+        map(res => {
+          return {
+            status: res['result'],
+            data: res['data']
+          };
+        })
+      );
+  }
+  getServiceById(id) {
+    return this.http.get(ApiConstants.baseURl + `/manageCleanservice/${id}`, {
+      headers: {
+        Authorization: `${localStorage.getItem('access-token')}`
+      }
+    }).pipe(
       map(res => {
         return {
           status: res['result'],
-          data: res['data']
+          data: res['data'][0]
         };
       })
     );
   }
-  getServiceById(id) {
-    return this.http.get(ApiConstants.baseURl + `/manageCleanservice/${id}`, {
+  getServiceId(id) {
+    console.log(id);
+
+    return this.http.get(ApiConstants.baseURl + `/manageCleanservice/getService/${id}`, {
       headers: {
         Authorization: `${localStorage.getItem('access-token')}`
       }

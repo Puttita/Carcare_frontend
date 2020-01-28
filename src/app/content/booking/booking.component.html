@@ -56,13 +56,6 @@
                     </p-sortIcon>
                   </th>
                   <th pSortableColumn="price">
-                    ค่าบริการ
-                    <p-sortIcon field="price" ariaLabel="Activate to sort"
-                      ariaLabelDesc="Activate to sort in descending order"
-                      ariaLabelAsc="Activate to sort in ascending order">
-                    </p-sortIcon>
-                  </th>
-                  <th pSortableColumn="price">
                     สถานะ
                     <p-sortIcon field="price" ariaLabel="Activate to sort"
                       ariaLabelDesc="Activate to sort in descending order"
@@ -88,9 +81,6 @@
                     {{rowData.license}}
                   </td>
                   <td [pSelectableRow]="rowData" style="text-align: center">
-                    -
-                  </td>
-                  <td [pSelectableRow]="rowData" style="text-align: center">
                     {{rowData.total_price}} บาท
                   </td>
                   <td [pSelectableRow]="rowData" style="text-align: center">
@@ -110,9 +100,6 @@
                       </div>
                       <div *ngIf="rowData[col.field] == rowData['license'] ">
                         {{rowData.license}}
-                      </div>
-                      <div *ngIf="rowData[col.field] == rowData['total_price']">
-                        -
                       </div>
                       <div *ngIf="rowData[col.field] == rowData['total_price']">
                         {{rowData.total_price }}

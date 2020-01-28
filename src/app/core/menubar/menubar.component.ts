@@ -31,7 +31,10 @@ export class MenubarComponent implements OnInit {
     console.log(this.userId);
 
     this.authService.getRole().subscribe(res => this.role = res);
+    console.log(this.role);
+
   }
+
   menubar() {
     this.items1 = [
       { label: 'จัดการเจ้าของร้าน', icon: 'pi pi-fw pi-users', routerLink: '/manageManager' },
@@ -55,7 +58,7 @@ export class MenubarComponent implements OnInit {
   }
 
   showHomeMenu(...role) {
+    console.log(role.includes(this.role));
     return role.includes(this.role);
-
   }
 }
